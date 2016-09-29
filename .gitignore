@@ -1,0 +1,11 @@
+certification.csv
+.DS_Store
+node_modules
+pact/*.log
+*.log
+.idea/
+coverage/
+info.json
+*.iml
+reports
+pacts/

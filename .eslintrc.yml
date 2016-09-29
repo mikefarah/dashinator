@@ -1,0 +1,9 @@
+---
+  extends: airbnb/base
+  rules:
+    strict: off # turn this on once node and chai support it properly
+    no-underscore-dangle: off # we use _ to denote private.
+    max-depth: error
+    max-len: error
+    complexity: error
+    max-lines: error
