@@ -1,5 +1,4 @@
 const testEnvironments = (state = {
-    name: 'test',
     failures: [],
   } , action) => {
   if (action.type == 'update') {

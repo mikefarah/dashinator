@@ -1,16 +1,12 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import FailureList from '../components/FailureList';
+import Dashboard from '../components/Dashboard';
 import * as CounterActions from '../actions';
 
-const mapStateToProps = state => ({
-  connection: state.connection,
-  name: state.testEnvironments.name,
-  failures: state.testEnvironments.failures,
-});
+const mapStateToProps = state => state;
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(CounterActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FailureList);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
