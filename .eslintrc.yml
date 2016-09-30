@@ -1,5 +1,16 @@
 ---
-  extends: airbnb/base
+  plugins:
+    - react
+  extends:
+    - airbnb/base
+    - plugin:react/recommended
+  parserOptions:
+    ecmaFeatures:
+      jsx: true
+  globals:
+     window: true
+     location: true
+     document: true
   rules:
     strict: off # turn this on once node and chai support it properly
     no-underscore-dangle: off # we use _ to denote private.

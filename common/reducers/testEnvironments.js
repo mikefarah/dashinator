@@ -1,8 +1,10 @@
 const testEnvironments = (state = {
-    failures: [],
-  } , action) => {
-  if (action.type == 'update') {
-    return action.testEnvironments;
+  failures: [],
+}, action) => {
+  if (action.type === 'updateTestEnvironmentFailures') {
+    return Object.assign({}, state, {
+      failures: action.failures,
+    });
   }
   return state;
 };

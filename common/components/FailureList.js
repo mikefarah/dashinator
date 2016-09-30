@@ -1,10 +1,11 @@
-import React, { Component, PropTypes } from 'react'
-import Failure from './Failure'
-import reactCSS from 'reactcss'
+import React, { PropTypes } from 'react';
+import reactCSS from 'reactcss';
+import Failure from './Failure';
 
-const FailureList = ({name, failures}) => {
+
+const FailureList = ({ name, failures }) => {
   const styles = reactCSS({
-    'default': {
+    default: {
       container: {
         background: 'green',
         height: '100%',
@@ -18,15 +19,15 @@ const FailureList = ({name, failures}) => {
         color: 'white',
         fontFamily: 'sans-serif',
         fontSize: '32px',
-      }
+      },
     },
-    'failure': {
+    failure: {
       container: {
         background: 'tomato',
       },
     },
   }, {
-    failure: failures.length > 0
+    failure: failures.length > 0,
   });
 
   return <div style={ styles.container }>
@@ -36,8 +37,8 @@ const FailureList = ({name, failures}) => {
                { failures.map(f => <Failure key={ f.url } name={ f.name } url={ f.url } />) }
              </ul>
            </div>
-         </div>
-}
+         </div>;
+};
 
 FailureList.propTypes = {
   name: PropTypes.string.isRequired,
@@ -45,6 +46,6 @@ FailureList.propTypes = {
     name: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
   })).isRequired,
-}
+};
 
-export default FailureList
+export default FailureList;

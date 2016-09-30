@@ -1,116 +1,57 @@
-/* eslint-disable no-console, no-use-before-define */
+/* eslint-disable no-console */
 
-import path from 'path'
-import Express from 'express'
-import qs from 'qs'
+import Express from 'express';
 
-import webpack from 'webpack'
-import webpackDevMiddleware from 'webpack-dev-middleware'
-import webpackHotMiddleware from 'webpack-hot-middleware'
-import webpackConfig from '../webpack.config'
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { Provider } from 'react-redux'
+import socketIo from 'socket.io';
 
-import configureStore from '../common/store/configureStore'
-import App from '../common/containers/App'
+import webpackConfig from '../webpack.config';
 
+import EnvironmentHealthChecks from './EnvironmentHealthChecks';
+import handleRender from './renderer';
 
-import socketIo from 'socket.io'
-
-const app = new Express()
-const port = 3000
+const app = new Express();
+const port = 3000;
 
 // Use this middleware to set up hot module reloading via webpack.
-const compiler = webpack(webpackConfig)
+const compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler, {
   noInfo: true,
-  publicPath: webpackConfig.output.publicPath
-}))
-app.use(webpackHotMiddleware(compiler))
+  publicPath: webpackConfig.output.publicPath,
+}));
+app.use(webpackHotMiddleware(compiler));
 
-// This is fired every time the server side receives a request
-app.use(handleRender)
+const connections = [];
 
-function handleRender(req, res) {
-  // Query our mock API asynchronously
-  const params = qs.parse(req.query)
+const testEnvironments = new EnvironmentHealthChecks(connections, 'updateTestEnvironmentFailures');
 
-  const preloadedState = {}
+const preloadedState = () => ({
+  testEnvironments: {
+    failures: testEnvironments.failures,
+  },
+});
 
-  // Create a new Redux store instance
-  const store = configureStore(preloadedState)
-
-  // Render the component to a string
-  const html = renderToString(
-    <Provider store={ store }>
-      <App />
-    </Provider>
-  )
-
-  // Grab the initial state from our Redux store
-  const finalState = store.getState()
-
-  // Send the rendered page back to the client
-  res.send(renderFullPage(html, finalState))
-}
-
-function renderFullPage(html, preloadedState) {
-  return `
-    <!doctype html>
-    <html>
-      <head>
-        <title>Redux Universal Example</title>
-      </head>
-      <body style='margin: 0px'>
-        <div id="app">${html}</div>
-        <script>
-          window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\x3c')}
-        </script>
-        <script src="/static/bundle.js"></script>
-      </body>
-    </html>
-    `
-}
+app.use(handleRender(preloadedState));
 
 const server = app.listen(port, (error) => {
   if (error) {
-    console.error(error)
+    console.error(error);
   } else {
-    console.info(`==>  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`)
+    console.info(`==>  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`);
   }
-})
+});
 
 const io = socketIo();
 io.attach(server);
 
-let count = 0;
-
-const load = () => {
-  count = count + 1;
-  connections.forEach(socket => socket.emit('action', {
-    type: 'update',
-    testEnvironments: {
-      name: 'test',
-      failures: [{
-        name: `thing(${count})`,
-        url: 'http://somewhere'
-      }],
-    }
-  }))
-}
-
-setInterval(load, 4000);
-
-const connections = [];
-
-io.on('connection', socket => {
+io.on('connection', (socket) => {
   connections.push(socket);
 
   socket.on('disconnect', () => {
     const index = connections.indexOf(socket);
     connections.splice(index, 1);
   });
-
-})
+});

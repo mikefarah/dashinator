@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react'
-import FailureList from './FailureList'
-import reactCSS from 'reactcss'
+import React, { PropTypes } from 'react';
+import reactCSS from 'reactcss';
+import FailureList from './FailureList';
 
-const Dashboard = ({connection, testEnvironments}) => {
+const Dashboard = ({ connection, testEnvironments }) => {
   const styles = reactCSS({
     default: {
       dashboard: {
@@ -20,7 +20,7 @@ const Dashboard = ({connection, testEnvironments}) => {
       },
       alert: {
         display: 'none',
-      }
+      },
     },
     disconnected: {
       alert: {
@@ -37,7 +37,7 @@ const Dashboard = ({connection, testEnvironments}) => {
       },
     },
   }, {
-    disconnected: connection === 'disconnected'
+    disconnected: connection === 'disconnected',
   });
 
   return <div>
@@ -50,8 +50,8 @@ const Dashboard = ({connection, testEnvironments}) => {
                <FailureList failures={ testEnvironments.failures } name='Test Environments' />
              </li>
            </ul>
-         </div>
-}
+         </div>;
+};
 
 Dashboard.propTypes = {
   connection: PropTypes.string.isRequired,
@@ -61,6 +61,6 @@ Dashboard.propTypes = {
       url: PropTypes.string.isRequired,
     })).isRequired,
   }).isRequired,
-}
+};
 
-export default Dashboard
+export default Dashboard;
