@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
 import connection from './connection';
-import testEnvironments from './testEnvironments';
+import { testEnvs, production } from './failureLists';
 
 const rootReducer = combineReducers({
   connection,
-  testEnvironments,
+  testEnvs,
+  production,
 });
 
 export default rootReducer;

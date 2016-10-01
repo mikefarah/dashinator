@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import reactCSS from 'reactcss';
 import FailureList from './FailureList';
 
-const Dashboard = ({ connection, testEnvironments }) => {
+const Dashboard = ({ connection, testEnvs, production }) => {
   const styles = reactCSS({
     default: {
       dashboard: {
@@ -44,10 +44,10 @@ const Dashboard = ({ connection, testEnvironments }) => {
            <div style={ styles.alert }>Connection Lost</div>
            <ul style={ styles.dashboard }>
              <li style={ styles.column }>
-               <FailureList failures={ [] } name='Prod' />
+               <FailureList failures={ production.failures } name='Production' />
              </li>
              <li style={ styles.column }>
-               <FailureList failures={ testEnvironments.failures } name='Test Environments' />
+               <FailureList failures={ testEnvs.failures } name='Test Environments' />
              </li>
            </ul>
          </div>;
@@ -55,7 +55,13 @@ const Dashboard = ({ connection, testEnvironments }) => {
 
 Dashboard.propTypes = {
   connection: PropTypes.string.isRequired,
-  testEnvironments: PropTypes.shape({
+  testEnvs: PropTypes.shape({
+    failures: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    })).isRequired,
+  }).isRequired,
+  production: PropTypes.shape({
     failures: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,

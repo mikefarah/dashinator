@@ -8,7 +8,7 @@ import socketIo from 'socket.io';
 
 import webpackConfig from '../webpack.config';
 
-import EnvironmentHealthChecks from './EnvironmentHealthChecks';
+import EnvironmentHealthChecks from './environmentHealthChecks';
 import handleRender from './renderer';
 
 const app = new Express();
@@ -24,7 +24,14 @@ app.use(webpackHotMiddleware(compiler));
 
 const connections = [];
 
-const testEnvironments = new EnvironmentHealthChecks(connections, 'updateTestEnvironmentFailures', [
+const productionEnvironment = new EnvironmentHealthChecks(connections, 'updateProduction', [
+  {
+    name: 'prod http listener',
+    url: 'http://localhost:9999',
+  },
+]);
+
+const testEnvs = new EnvironmentHealthChecks(connections, 'updateTestEnvs', [
   {
     name: 'simple http listener',
     url: 'http://localhost:9999',
@@ -36,8 +43,11 @@ const testEnvironments = new EnvironmentHealthChecks(connections, 'updateTestEnv
 ]);
 
 const preloadedState = () => ({
-  testEnvironments: {
-    failures: testEnvironments.failures,
+  testEnvs: {
+    failures: testEnvs.failures,
+  },
+  production: {
+    failures: productionEnvironment.failures,
   },
 });
 
