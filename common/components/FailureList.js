@@ -7,6 +7,7 @@ const FailureList = ({ name, failures }) => {
   const styles = reactCSS({
     default: {
       container: {
+        transition: 'background-color 2s',
         background: 'green',
         height: '100%',
         display: 'flex',
