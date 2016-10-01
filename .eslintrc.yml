@@ -18,3 +18,4 @@
     max-len: error
     complexity: error
     max-lines: error
+    no-console: off # until a real logger is used

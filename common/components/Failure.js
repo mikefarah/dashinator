@@ -13,13 +13,11 @@ const Failure = ({ name, url }) => {
     },
   });
 
-  return <div>
+  return <li>
            <a href={ url } style={ styles.link }>
-             <p>
-               { name }
-             </p>
+             { name }
            </a>
-         </div>;
+         </li>;
 };
 
 Failure.propTypes = {

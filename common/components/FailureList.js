@@ -12,8 +12,13 @@ const FailureList = ({ name, failures }) => {
         display: 'flex',
         borderRadius: '5px',
       },
-      list: {
+      content: {
         margin: 'auto',
+      },
+      list: {
+        listStyle: 'none',
+        paddingTop: '10px',
+        paddingLeft: '0px',
       },
       title: {
         color: 'white',
@@ -23,7 +28,7 @@ const FailureList = ({ name, failures }) => {
     },
     failure: {
       container: {
-        background: 'tomato',
+        background: 'red',
       },
     },
   }, {
@@ -31,10 +36,10 @@ const FailureList = ({ name, failures }) => {
   });
 
   return <div style={ styles.container }>
-           <div style={ styles.list }>
+           <div style={ styles.content }>
              <span style={ styles.title }>{ name }</span>
-             <ul>
-               { failures.map(f => <Failure key={ f.url } name={ f.name } url={ f.url } />) }
+             <ul style={ styles.list }>
+               { failures.map(f => <Failure key={ `${f.name}-${f.url}` } name={ f.name } url={ f.url } />) }
              </ul>
            </div>
          </div>;

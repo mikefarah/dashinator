@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import Express from 'express';
 
 import webpack from 'webpack';
@@ -26,7 +24,16 @@ app.use(webpackHotMiddleware(compiler));
 
 const connections = [];
 
-const testEnvironments = new EnvironmentHealthChecks(connections, 'updateTestEnvironmentFailures');
+const testEnvironments = new EnvironmentHealthChecks(connections, 'updateTestEnvironmentFailures', [
+  {
+    name: 'simple http listener',
+    url: 'http://localhost:9999',
+  },
+  {
+    name: 'another thing',
+    url: 'http://localhost:9999',
+  },
+]);
 
 const preloadedState = () => ({
   testEnvironments: {
