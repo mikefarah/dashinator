@@ -10,7 +10,7 @@ function renderFullPage(html, preloadedState) {
     <html>
       <head>
         <title>Dashboard Dasher Style</title>
-        <link rel="stylesheet" href="/dashboard.css">
+        <link rel="stylesheet" href="/application.css">
       </head>
       <body style='margin: 0px'>
         <div id="app">${html}</div>

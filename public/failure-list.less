@@ -1,0 +1,27 @@
+.failureList {
+  display: flex;
+  height: 100%;
+  transition: background-color 2s;
+  border-radius: 5px;
+  background: green;
+
+  &.has-failures {
+    background-color: red;
+  }
+
+  ul {
+    padding-top: 10px;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  > div {
+    margin: auto;
+  }
+
+  .title {
+    font-family: sans-serif;
+    font-size: 32px;
+    color: white;
+  }
+}

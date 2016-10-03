@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import FailureList from './FailureList';
 
 const Dashboard = ({ connection, testEnvs, production }) => (
-  <div className='dashboardGrid'>
+  <div className='dashboard'>
     <div className={ `connectionAlert ${connection}` }>Connection Lost</div>
     <div className='columnContainer'>
       <div className='rowContainer'>
