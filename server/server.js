@@ -3,6 +3,7 @@ import Express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import lessMiddleware from 'less-middleware';
 
 import socketIo from 'socket.io';
 
@@ -12,6 +13,9 @@ import EnvironmentHealthChecks from './environmentHealthChecks';
 import handleRender from './renderer';
 
 const app = new Express();
+app.use(lessMiddleware('public'));
+app.use(Express.static('public'));
+
 const port = 3000;
 
 // Use this middleware to set up hot module reloading via webpack.

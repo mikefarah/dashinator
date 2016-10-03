@@ -1,0 +1,51 @@
+@padding: 10px;
+
+.connectionAlert {
+  display: none;
+}
+
+.connectionAlert.disconnected {
+  display: block;
+  position: absolute;
+  width: ~"calc(100% - " @padding ~")";
+  background: black;
+  text-align: center;
+  padding: 30px 0px 30px;
+  font-family: "Arial Black", Gadget, sans-serif;
+  color: white;
+  font-size: 30px;
+  margin: 20px 5px 0px 5px;
+}
+
+.dashboardGrid {
+  text-align: center;
+
+  .columnContainer {
+     display: flex;
+
+    > div {
+        height: 100vh;
+        width: 100%;
+        flex-grow: 1;
+        padding: @padding / 2;
+        box-sizing: border-box;
+      }
+  }
+
+   .rowContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    > div {
+      width: 100%;
+      flex-grow: 1;
+      margin-bottom: @padding;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+    }
+  }
+
+}

@@ -9,3 +9,4 @@ info.json
 *.iml
 reports
 pacts/
+public/*.css
