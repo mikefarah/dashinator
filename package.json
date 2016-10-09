@@ -1,7 +1,7 @@
 {
-  "name": "redux-universal-example",
+  "name": "Dasher",
   "version": "0.0.0",
-  "description": "An example of a universally-rendered Redux application",
+  "description": "Dasher the daringly delightful dashboard.",
   "scripts": {
     "start": "node server/index.js"
   },
@@ -10,9 +10,6 @@
     "url": "git+https://github.com/reactjs/redux.git"
   },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/reactjs/redux/issues"
-  },
   "homepage": "http://redux.js.org",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
@@ -32,7 +29,8 @@
     "socket.io-client": "^1.4.8",
     "webpack": "^1.11.0",
     "webpack-dev-middleware": "^1.4.0",
-    "webpack-hot-middleware": "^2.9.1"
+    "webpack-hot-middleware": "^2.9.1",
+    "yamljs": "^0.2.8"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",

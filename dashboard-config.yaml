@@ -1,0 +1,9 @@
+productionEnvironment:
+  - name: http listener
+    url: http://localhost:9999
+
+testEnvironments:
+  - name: DEV http listener
+    url: http://localhost:9999
+  - name: QA http listener
+    url: http://localhost:9999

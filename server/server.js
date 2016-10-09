@@ -6,11 +6,13 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import lessMiddleware from 'less-middleware';
 
 import socketIo from 'socket.io';
+import Yaml from 'yamljs';
 
 import webpackConfig from '../webpack.config';
 
 import EnvironmentHealthChecks from './environmentHealthChecks';
 import handleRender from './renderer';
+
 
 const app = new Express();
 app.use(lessMiddleware('public'));
@@ -28,23 +30,17 @@ app.use(webpackHotMiddleware(compiler));
 
 const connections = [];
 
-const productionEnvironment = new EnvironmentHealthChecks(connections, 'updateProduction', [
-  {
-    name: 'prod http listener',
-    url: 'http://localhost:9999',
-  },
-]);
+const dashboardConfig = Yaml.load('./dashboard-config.yaml');
 
-const testEnvs = new EnvironmentHealthChecks(connections, 'updateTestEnvs', [
-  {
-    name: 'simple http listener',
-    url: 'http://localhost:9999',
-  },
-  {
-    name: 'another thing',
-    url: 'http://localhost:9999',
-  },
-]);
+const productionEnvironment = new EnvironmentHealthChecks(
+  connections,
+  'updateProduction',
+  dashboardConfig.productionEnvironment);
+
+const testEnvs = new EnvironmentHealthChecks(
+  connections,
+  'updateTestEnvs',
+  dashboardConfig.testEnvironments);
 
 const preloadedState = () => ({
   testEnvs: {
