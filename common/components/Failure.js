@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 
 const Failure = ({ name, url }) => (
-  <li className='failure'>
+  <div className='failure'>
     <a href={ url }>
       { name }
     </a>
-  </li>
+  </div>
 );
 
 Failure.propTypes = {

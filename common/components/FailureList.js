@@ -5,9 +5,9 @@ const FailureList = ({ name, failures }) => (
   <div className={ `failureList ${failures.length ? 'has-failures' : 'no-failures'}` }>
     <div>
       <span className='title'>{ name }</span>
-      <ul>
+      <div className='list'>
         { failures.map(f => <Failure key={ `${f.name}-${f.url}` } name={ f.name } url={ f.url } />) }
-      </ul>
+      </div>
     </div>
   </div>
 );
