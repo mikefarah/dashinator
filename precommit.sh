@@ -10,3 +10,6 @@ echo 'formatting less'
 
 echo 'linting'
 ./scripts/lint-code.sh
+
+echo 'test'
+./scripts/test.sh
