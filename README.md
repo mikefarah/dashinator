@@ -3,6 +3,8 @@ Dasher the daringly delightful dashboard. A replacement for dashing (https://git
 
 The dashboard is built using node + react + redux.
 
+Use it to monitor service health, CI builds, production stats, whatever...
+
 ## Running
 
 ```
