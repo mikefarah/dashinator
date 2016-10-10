@@ -1,4 +1,4 @@
-# dasher
+# dasher [![Build Status](https://travis-ci.org/mikefarah/dasher.svg?branch=master)](https://travis-ci.org/mikefarah/dasher)
 Dasher the daringly delightful dashboard. A replacement for dashing (https://github.com/Shopify/dashing/blob/master/README.md) as it's no longer being maintained.
 
 The dashboard is built using node + react + redux.

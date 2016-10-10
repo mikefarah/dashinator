@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Dasher the daringly delightful dashboard.",
   "scripts": {
+    "test": "./precommit.sh",
     "start": "node server/index.js"
   },
   "repository": {
