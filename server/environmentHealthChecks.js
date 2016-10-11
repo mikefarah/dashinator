@@ -40,5 +40,4 @@ class EnvironmentHealthChecks {
   }
 }
 
-
 module.exports = EnvironmentHealthChecks;

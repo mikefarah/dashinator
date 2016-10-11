@@ -13,7 +13,6 @@ import webpackConfig from '../webpack.config';
 import EnvironmentHealthChecks from './environmentHealthChecks';
 import handleRender from './renderer';
 
-
 const app = new Express();
 app.use(lessMiddleware('public'));
 app.use(Express.static('public'));

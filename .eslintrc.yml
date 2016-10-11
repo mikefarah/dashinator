@@ -13,7 +13,8 @@
      document: true
   rules:
     strict: off # turn this on once node and chai support it properly
-    no-underscore-dangle: off # we use _ to denote private.
+    no-underscore-dangle: off
+    no-multiple-empty-lines: ["error", {max: 1}]
     max-depth: error
     max-len: error
     complexity: error

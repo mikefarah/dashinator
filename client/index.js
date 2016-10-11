@@ -25,7 +25,6 @@ socket.on('action', (action) => {
   });
 });
 
-
 const rootElement = document.getElementById('app');
 
 render(<Provider store={ store }>

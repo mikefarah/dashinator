@@ -7,12 +7,10 @@ import Failure from '../../../common/components/Failure';
 describe('FailureList', () => {
   let component;
 
-
   context('there are no failures', () => {
     beforeEach(() => {
       component = shallow(<FailureList name='test' failures={ [] } />);
     });
-
 
     it("has a 'no-failures' class name", () => {
       expect(component.find('.no-failures').length).toEqual(1);
@@ -32,7 +30,6 @@ describe('FailureList', () => {
     beforeEach(() => {
       component = shallow(<FailureList name='test' failures={ failures } />);
     });
-
 
     it("does not have a 'no-failures' class name", () => {
       expect(component.find('.no-failures').length).toEqual(0);
