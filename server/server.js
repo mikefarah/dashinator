@@ -37,10 +37,14 @@ const productionEnvironment = new EnvironmentHealthChecks(
   'updateProduction',
   dashboardConfig.productionEnvironment);
 
+productionEnvironment.monitor();
+
 const testEnvs = new EnvironmentHealthChecks(
   connections,
   'updateTestEnvs',
   dashboardConfig.testEnvironments);
+
+testEnvs.monitor();
 
 const preloadedState = () => ({
   testEnvs: {

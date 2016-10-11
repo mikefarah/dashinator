@@ -1,16 +1,5 @@
-import request from 'request-promise-native';
 import _ from 'lodash';
-
-const checkServiceHealth = service => request({
-  uri: service.url,
-  resolveWithFullResponse: true,
-})
-  .then(() => 200) // normalise success to 200
-  .catch(err => (err.response ? err.response.statusCode : 500))
-  .then(statusCode => Object.assign({}, service, {
-    statusCode,
-  }));
-
+import checkServiceHealth from './checkServiceHealth';
 
 class EnvironmentHealthChecks {
   constructor(connections, actionType, servers) {
@@ -19,18 +8,24 @@ class EnvironmentHealthChecks {
     this.failures = [];
     this.count = 0;
     this.servers = servers;
-    this.checkHealth();
+  }
+
+  monitor() {
+    this.checkHealth()
+      .then(() => setTimeout(() => this.monitor(), 5000))
+      .catch((err) => {
+        console.log(err);
+        setTimeout(() => this.monitor(), 20000);
+      });
   }
 
   checkHealth() {
-    console.log('Checking health');
-    Promise.all(this.servers.map(s => checkServiceHealth(s)))
-      .then(results => this.updateState(results))
-      .then(() => setTimeout(() => this.checkHealth(), 1000));
+    return Promise.all(this.servers.map(s => checkServiceHealth(s)))
+      .then(results => this.updateState(results));
   }
 
   updateState(results) {
-    this.failures = _.reject(results, s => s.statusCode === 200);
+    this.failures = _.reject(results, s => s.status === 'OK');
     this.broadcast();
   }
 

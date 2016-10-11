@@ -37,6 +37,7 @@
     "babel-core": "^6.3.15",
     "babel-jest": "^16.0.0",
     "babel-loader": "^6.2.0",
+    "babel-plugin-rewire": "^1.0.0",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.3.13",
     "babel-preset-react-hmre": "^1.1.1",
@@ -54,7 +55,9 @@
     "jest-cli": "^16.0.1",
     "js-beautify": "^1.6.4",
     "nodemon": "^1.10.2",
-    "react-addons-test-utils": "^15.3.2"
+    "react-addons-test-utils": "^15.3.2",
+    "sinon": "^1.17.6",
+    "sinon-as-promised": "^4.0.0"
   },
   "esformatter": {
     "plugins": [
