@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import winston from 'winston';
 import checkServiceHealth from './checkServiceHealth';
 
 class EnvironmentHealthChecks {
@@ -14,8 +15,8 @@ class EnvironmentHealthChecks {
     this.checkHealth()
       .then(() => setTimeout(() => this.monitor(), 5000))
       .catch((err) => {
-        console.log(err);
         setTimeout(() => this.monitor(), 20000);
+        winston.error(err);
       });
   }
 
@@ -30,7 +31,7 @@ class EnvironmentHealthChecks {
   }
 
   broadcast() {
-    console.log('Broadcasting', this.failures);
+    winston.info('Broadcasting', this.failures);
     this.connections.forEach((socket) => {
       socket.emit('action', {
         type: this.actionType,

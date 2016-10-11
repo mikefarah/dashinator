@@ -4,7 +4,7 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import lessMiddleware from 'less-middleware';
-
+import winston from 'winston';
 import socketIo from 'socket.io';
 import Yaml from 'yamljs';
 
@@ -58,9 +58,9 @@ app.use(handleRender(preloadedState));
 
 const server = app.listen(port, (error) => {
   if (error) {
-    console.error(error);
+    winston.error(error);
   } else {
-    console.info(`==>  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`);
+    winston.info(`==>  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`);
   }
 });
 
