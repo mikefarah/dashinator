@@ -2,6 +2,8 @@ import _ from 'lodash';
 import winston from 'winston';
 import checkServiceHealth from './checkServiceHealth';
 
+const intervalMs = 20000;
+
 class EnvironmentHealthChecks {
   constructor(connections, actionType, servers) {
     this.connections = connections;
@@ -12,11 +14,11 @@ class EnvironmentHealthChecks {
   }
 
   monitor() {
-    this.checkHealth()
-      .then(() => setTimeout(() => this.monitor(), 5000))
+    return this.checkHealth()
+      .then(() => setTimeout(() => this.monitor(), intervalMs))
       .catch((err) => {
-        setTimeout(() => this.monitor(), 20000);
         winston.error(err);
+        setTimeout(() => this.monitor(), intervalMs);
       });
   }
 
