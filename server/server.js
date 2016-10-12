@@ -5,13 +5,15 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import lessMiddleware from 'less-middleware';
 import winston from 'winston';
-import socketIo from 'socket.io';
 import Yaml from 'yamljs';
 
 import webpackConfig from '../webpack.config';
 
 import EnvironmentHealthChecks from './environmentHealthChecks';
 import handleRender from './renderer';
+import Broadcaster from './broadcaster';
+
+const broadcaster = new Broadcaster();
 
 const app = new Express();
 app.use(lessMiddleware('public'));
@@ -27,19 +29,17 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 app.use(webpackHotMiddleware(compiler));
 
-const connections = [];
-
 const dashboardConfig = Yaml.load('./dashboard-config.yaml');
 
 const productionEnvironment = new EnvironmentHealthChecks(
-  connections,
+  broadcaster,
   'updateProduction',
   dashboardConfig.productionEnvironment);
 
 productionEnvironment.monitor();
 
 const testEnvs = new EnvironmentHealthChecks(
-  connections,
+  broadcaster,
   'updateTestEnvs',
   dashboardConfig.testEnvironments);
 
@@ -64,14 +64,5 @@ const server = app.listen(port, (error) => {
   }
 });
 
-const io = socketIo();
-io.attach(server);
+broadcaster.attach(server);
 
-io.on('connection', (socket) => {
-  connections.push(socket);
-
-  socket.on('disconnect', () => {
-    const index = connections.indexOf(socket);
-    connections.splice(index, 1);
-  });
-});

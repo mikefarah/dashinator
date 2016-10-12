@@ -5,8 +5,8 @@ import checkServiceHealth from './checkServiceHealth';
 const intervalMs = 20000;
 
 class EnvironmentHealthChecks {
-  constructor(connections, actionType, servers) {
-    this.connections = connections;
+  constructor(broadcaster, actionType, servers) {
+    this.broadcaster = broadcaster;
     this.actionType = actionType;
     this.failures = [];
     this.count = 0;
@@ -33,12 +33,9 @@ class EnvironmentHealthChecks {
   }
 
   broadcast() {
-    winston.info('Broadcasting', this.failures);
-    this.connections.forEach((socket) => {
-      socket.emit('action', {
-        type: this.actionType,
-        failures: this.failures,
-      });
+    this.broadcaster.broadcast({
+      type: this.actionType,
+      failures: this.failures,
     });
   }
 }

@@ -1,16 +1,17 @@
 import sinon from 'sinon';
 import 'sinon-as-promised';
 
+import winstonStub from '../winstonStub';
 import EnvironmentHealthChecks from '../../server/environmentHealthChecks';
 
 jest.useFakeTimers();
 
 describe('EnvironmentHealthChecks', () => {
   const checkServiceHealthStub = sinon.stub().resolves();
-  const connection = {
-    emit: sinon.stub(),
+  const broadcasterStub = {
+    broadcast: sinon.stub(),
   };
-  const connections = [connection];
+
   const actionType = 'updateSomething';
   let environmentHealthChecks;
   const server1 = {
@@ -25,11 +26,8 @@ describe('EnvironmentHealthChecks', () => {
 
   beforeEach(() => {
     EnvironmentHealthChecks.__Rewire__('checkServiceHealth', checkServiceHealthStub);
-    EnvironmentHealthChecks.__Rewire__('winston', {
-      error: sinon.stub(),
-      info: sinon.stub(),
-    });
-    environmentHealthChecks = new EnvironmentHealthChecks(connections, actionType, servers);
+    EnvironmentHealthChecks.__Rewire__('winston', winstonStub);
+    environmentHealthChecks = new EnvironmentHealthChecks(broadcasterStub, actionType, servers);
   });
 
   describe('monitor', () => {
@@ -121,8 +119,8 @@ describe('EnvironmentHealthChecks', () => {
       environmentHealthChecks.broadcast();
     });
 
-    it('emits the current state to the connected sockets', () => {
-      expect(connection.emit.firstCall.args).toEqual(['action', {
+    it('broadcasts the update action', () => {
+      expect(broadcasterStub.broadcast.firstCall.args).toEqual([{
         type: actionType,
         failures,
       }]);
