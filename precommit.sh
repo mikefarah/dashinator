@@ -2,9 +2,6 @@
 
 set -e
 
-echo 'formatting code'
-./scripts/format-code.sh
-
 echo 'formatting less'
 ./scripts/format-less.sh
 
