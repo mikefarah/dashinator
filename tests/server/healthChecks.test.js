@@ -2,18 +2,18 @@ import sinon from 'sinon';
 import 'sinon-as-promised';
 
 import winstonStub from '../winstonStub';
-import EnvironmentHealthChecks from '../../server/environmentHealthChecks';
+import HealthChecks from '../../server/healthChecks';
 
 jest.useFakeTimers();
 
-describe('EnvironmentHealthChecks', () => {
+describe('HealthChecks', () => {
   const checkServiceHealthStub = sinon.stub().resolves();
   const broadcasterStub = {
     broadcast: sinon.stub(),
   };
 
   const actionType = 'updateSomething';
-  let environmentHealthChecks;
+  let healthChecks;
   const server1 = {
     name: 'server1',
     url: 'http://something1',
@@ -25,37 +25,37 @@ describe('EnvironmentHealthChecks', () => {
   const servers = [server1, server2];
 
   beforeEach(() => {
-    EnvironmentHealthChecks.__Rewire__('checkServiceHealth', checkServiceHealthStub);
-    EnvironmentHealthChecks.__Rewire__('winston', winstonStub);
-    environmentHealthChecks = new EnvironmentHealthChecks(broadcasterStub, actionType, servers);
+    HealthChecks.__Rewire__('checkServiceHealth', checkServiceHealthStub);
+    HealthChecks.__Rewire__('winston', winstonStub);
+    healthChecks = new HealthChecks(broadcasterStub, actionType, servers);
   });
 
   describe('monitor', () => {
     context('checkHealth succeeds', () => {
       beforeEach(() => {
-        environmentHealthChecks.checkHealth = sinon.stub().resolves();
-        return environmentHealthChecks.monitor();
+        healthChecks.checkHealth = sinon.stub().resolves();
+        return healthChecks.monitor();
       });
 
       it('calls checkHealth', () => {
-        expect(environmentHealthChecks.checkHealth.callCount).toEqual(1);
+        expect(healthChecks.checkHealth.callCount).toEqual(1);
       });
 
       it('schedules to call itself', () => {
         jest.runOnlyPendingTimers();
-        expect(environmentHealthChecks.checkHealth.callCount).toEqual(2);
+        expect(healthChecks.checkHealth.callCount).toEqual(2);
       });
     });
 
     context('checkHealth fails', () => {
       beforeEach(() => {
-        environmentHealthChecks.checkHealth = sinon.stub().rejects(new Error('badness'));
-        return environmentHealthChecks.monitor();
+        healthChecks.checkHealth = sinon.stub().rejects(new Error('badness'));
+        return healthChecks.monitor();
       });
 
       it('schedules to call itself', () => {
         jest.runOnlyPendingTimers();
-        expect(environmentHealthChecks.checkHealth.callCount).toEqual(2);
+        expect(healthChecks.checkHealth.callCount).toEqual(2);
       });
     });
   });
@@ -71,8 +71,8 @@ describe('EnvironmentHealthChecks', () => {
     beforeEach(() => {
       checkServiceHealthStub.reset().returns(healthCheckResults1);
       checkServiceHealthStub.onCall(1).returns(healthCheckResults2);
-      environmentHealthChecks.updateState = sinon.stub();
-      return environmentHealthChecks.checkHealth();
+      healthChecks.updateState = sinon.stub();
+      return healthChecks.checkHealth();
     });
 
     it('checks the health of the services', () => {
@@ -80,7 +80,7 @@ describe('EnvironmentHealthChecks', () => {
     });
 
     it('calls updateState with the health status', () => {
-      const updateStateArgs = environmentHealthChecks.updateState.firstCall.args;
+      const updateStateArgs = healthChecks.updateState.firstCall.args;
       expect(updateStateArgs).toEqual([[healthCheckResults1, healthCheckResults2]]);
     });
   });
@@ -98,16 +98,16 @@ describe('EnvironmentHealthChecks', () => {
     const results = [serverResults1, serverResults2];
 
     beforeEach(() => {
-      environmentHealthChecks.broadcast = sinon.stub();
-      environmentHealthChecks.updateState(results);
+      healthChecks.broadcast = sinon.stub();
+      healthChecks.updateState(results);
     });
 
     it('sets the failures property to the failed health checks', () => {
-      expect(environmentHealthChecks.failures).toEqual([serverResults2]);
+      expect(healthChecks.failures).toEqual([serverResults2]);
     });
 
     it('calls broadcast to broadcast the results', () => {
-      expect(environmentHealthChecks.broadcast.called).toEqual(true);
+      expect(healthChecks.broadcast.called).toEqual(true);
     });
   });
 
@@ -115,8 +115,8 @@ describe('EnvironmentHealthChecks', () => {
     const failures = ['badness'];
 
     beforeEach(() => {
-      environmentHealthChecks.failures = failures;
-      environmentHealthChecks.broadcast();
+      healthChecks.failures = failures;
+      healthChecks.broadcast();
     });
 
     it('broadcasts the update action', () => {

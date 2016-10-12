@@ -4,7 +4,7 @@ import checkServiceHealth from './checkServiceHealth';
 
 const intervalMs = 20000;
 
-class EnvironmentHealthChecks {
+class HealthChecks {
   constructor(broadcaster, actionType, servers) {
     this.broadcaster = broadcaster;
     this.actionType = actionType;
@@ -40,4 +40,4 @@ class EnvironmentHealthChecks {
   }
 }
 
-module.exports = EnvironmentHealthChecks;
+module.exports = HealthChecks;

@@ -1,7 +1,7 @@
-const updateFailureList = environment => (state = {
+const updateFailureList = updateListCategory => (state = {
   failures: [],
 }, action) => {
-  if (action.type === environment) {
+  if (action.type === updateListCategory) {
     return Object.assign({}, state, {
       failures: action.failures,
     });

@@ -9,7 +9,7 @@ import Yaml from 'yamljs';
 
 import webpackConfig from '../webpack.config';
 
-import EnvironmentHealthChecks from './environmentHealthChecks';
+import HealthChecks from './healthChecks';
 import handleRender from './renderer';
 import Broadcaster from './broadcaster';
 
@@ -31,14 +31,14 @@ app.use(webpackHotMiddleware(compiler));
 
 const dashboardConfig = Yaml.load('./dashboard-config.yaml');
 
-const productionEnvironment = new EnvironmentHealthChecks(
+const productionEnvironment = new HealthChecks(
   broadcaster,
   'updateProduction',
   dashboardConfig.productionEnvironment);
 
 productionEnvironment.monitor();
 
-const testEnvs = new EnvironmentHealthChecks(
+const testEnvs = new HealthChecks(
   broadcaster,
   'updateTestEnvs',
   dashboardConfig.testEnvironments);
