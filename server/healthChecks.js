@@ -9,7 +9,6 @@ class HealthChecks {
     this.broadcaster = broadcaster;
     this.actionType = actionType;
     this.failures = [];
-    this.count = 0;
     this.servers = servers;
   }
 
