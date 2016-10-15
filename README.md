@@ -28,13 +28,13 @@ Then browse to http://localhost:3000
 ```yaml
 productionEnvironment:
   - name: http listener
-    url: http://localhost:9999
+    url: http://localhost:9999/health_check
 
 testEnvironments:
   - name: DEV http listener
-    url: http://localhost:9999
+    url: http://localhost:9999/health_check
   - name: QA http listener
-    url: http://localhost:9999
+    url: http://localhost:9999/health_check
 
 bamboo:
   baseUrl: https://bamboo.com
@@ -47,9 +47,13 @@ bamboo:
       - AWESOME-PLAN
 ```
 
+The health_check endpoints are assumed to return a successful HTTP response code if the service is healthy (successful as defined by node's request library).
+
+Dasher will poll the services and bamboo every 20 seconds and update the dashboard accordingly.
+
 ## TODO
 
-- Moar unit tests
+- More unit tests
 - Dockerify
 
 
