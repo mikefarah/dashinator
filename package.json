@@ -1,6 +1,6 @@
 {
   "name": "Dasher",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Dasher the daringly delightful dashboard.",
   "scripts": {
     "test": "./precommit.sh",
@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reactjs/redux.git"
+    "url": "git@github.com:mikefarah/dasher.git"
   },
   "license": "MIT",
-  "homepage": "http://redux.js.org",
+  "homepage": "https://github.com/mikefarah/dasher",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "babel-register": "^6.4.3",
