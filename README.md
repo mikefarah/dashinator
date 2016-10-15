@@ -7,18 +7,45 @@ Currently it supports Bamboo, happy for pull requests to accept other CI tools t
 
 ![Screenshot](screenshot.png)
 
-## Running
+## Usage
 
+```sh
+npm install -g dasher
+dasher myTeamsConfig.yaml
 ```
-npm install
-node server/index.js sample-dashboard-config.yaml
+
+Alternatively, you can install it locally:
+
+```sh
+npm install dasher
+./node_modules/.bin/dasher myTeamsConfig.yaml
 ```
 
 Then browse to http://localhost:3000
 
-## Configuring
+## Example config YAML
 
-See sample-dashboard-config.yaml
+```yaml
+productionEnvironment:
+  - name: http listener
+    url: http://localhost:9999
+
+testEnvironments:
+  - name: DEV http listener
+    url: http://localhost:9999
+  - name: QA http listener
+    url: http://localhost:9999
+
+bamboo:
+  baseUrl: https://bamboo.com
+  requestOptions:
+    strictSSL: false
+    auth:
+      user: user
+      password: password
+  plans:
+      - AWESOME-PLAN
+```
 
 ## TODO
 

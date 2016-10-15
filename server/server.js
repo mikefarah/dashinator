@@ -31,7 +31,7 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 app.use(webpackHotMiddleware(compiler));
 
-const dashboardConfig = Yaml.load(process.argv[process.argv.length - 1]);
+const dashboardConfig = Yaml.load(process.argv[2]);
 
 const productionHealthChecks = healthChecksFor(dashboardConfig.productionEnvironment);
 const production = new Monitor(broadcaster, 'updateProduction', productionHealthChecks);

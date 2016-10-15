@@ -1,15 +1,19 @@
 {
   "name": "Dasher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dasher the daringly delightful dashboard.",
   "scripts": {
     "test": "./precommit.sh",
     "start": "node server/index.js"
   },
+  "keywords": ["dashboard", "information radar", "dashing"],
   "repository": {
     "type": "git",
     "url": "git@github.com:mikefarah/dasher.git"
   },
+  "bin": {
+   "dasher": "./server/index.js"
+ },
   "license": "MIT",
   "homepage": "https://github.com/mikefarah/dasher",
   "dependencies": {
