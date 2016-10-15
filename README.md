@@ -3,26 +3,27 @@ Dasher the daringly delightful dashboard. A node + react + redux replacement for
 
 I use it to monitor a bunch of micro-services across several environments, and relevant the CI builds and deployments. Because there are so many things to monitor, I don't want to clutter the dashboard making it noisy and hard to read. Instead, the dashboard only reports on failures for Production, Test environments and the CI.
 
+Currently it supports Bamboo, happy for pull requests to accept other CI tools too :)
+
 ![Screenshot](screenshot.png)
 
 ## Running
 
 ```
 npm install
-node server/index.js
+node server/index.js sample-dashboard-config.yaml
 ```
 
 Then browse to http://localhost:3000
 
 ## Configuring
 
-Edit dashboard-config.yaml
+See sample-dashboard-config.yaml
 
 ## TODO
 
 - Moar unit tests
 - Dockerify
-- Add support for various CI tools (bamboo, jenkins etc)
 
 
 ## Contributing

@@ -1,11 +1,8 @@
 import { combineReducers } from 'redux';
 import connection from './connection';
-import { testEnvs, production } from './failureLists';
+import * as FailureListActions from './failureLists';
 
-const rootReducer = combineReducers({
-  connection,
-  testEnvs,
-  production,
-});
+const rootReducer = combineReducers(
+  Object.assign({}, { connection }, FailureListActions.default));
 
 export default rootReducer;

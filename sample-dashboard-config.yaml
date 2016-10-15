@@ -7,3 +7,13 @@ testEnvironments:
     url: http://localhost:9999
   - name: QA http listener
     url: http://localhost:9999
+
+bamboo:
+  baseUrl: https://bamboo.com
+  requestOptions:
+    strictSSL: false
+    auth:
+      user: user
+      password: password
+  plans:
+      - AWESOME-PLAN

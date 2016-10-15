@@ -1,29 +1,25 @@
 import _ from 'lodash';
 import winston from 'winston';
-import checkServiceHealth from './checkServiceHealth';
 
 const intervalMs = 20000;
 
-class HealthChecks {
-  constructor(broadcaster, actionType, servers) {
+class Monitor {
+  constructor(broadcaster, actionType, runCheck) {
     this.broadcaster = broadcaster;
     this.actionType = actionType;
     this.failures = [];
-    this.servers = servers;
+    this.runCheck = runCheck;
   }
 
   monitor() {
-    return this.checkHealth()
+    return this.runCheck()
+      .then(results => this.updateState(results))
       .then(() => setTimeout(() => this.monitor(), intervalMs))
       .catch((err) => {
         winston.error(err);
+        this.updateState([{ name: err.message, status: 'Exception', url: '#' }]);
         setTimeout(() => this.monitor(), intervalMs);
       });
-  }
-
-  checkHealth() {
-    return Promise.all(this.servers.map(s => checkServiceHealth(s)))
-      .then(results => this.updateState(results));
   }
 
   updateState(results) {
@@ -39,4 +35,4 @@ class HealthChecks {
   }
 }
 
-module.exports = HealthChecks;
+module.exports = Monitor;

@@ -10,3 +10,4 @@ info.json
 reports
 pacts/
 public/*.css
+real-config.yml

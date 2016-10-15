@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import FailureList from './FailureList';
 
-const Dashboard = ({ connection, testEnvs, production }) => (
+const Dashboard = ({ connection, testEnvs, production, ci }) => (
   <div className='dashboard'>
     <div className={ `connectionAlert ${connection}` }>Connection Lost</div>
     <div className='columnContainer'>
@@ -12,8 +12,7 @@ const Dashboard = ({ connection, testEnvs, production }) => (
         <FailureList failures={ testEnvs.failures } name='Test Environments' />
       </div>
       <div className='rowContainer'>
-        <FailureList failures={ [] } name='CI' />
-        <FailureList failures={ [] } name='Errors' />
+        <FailureList failures={ ci.failures } name='CI' />
       </div>
     </div>
   </div>
@@ -28,6 +27,12 @@ Dashboard.propTypes = {
     })).isRequired,
   }).isRequired,
   production: PropTypes.shape({
+    failures: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    })).isRequired,
+  }).isRequired,
+  ci: PropTypes.shape({
     failures: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,

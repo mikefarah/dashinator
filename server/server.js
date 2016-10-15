@@ -9,7 +9,9 @@ import Yaml from 'yamljs';
 
 import webpackConfig from '../webpack.config';
 
-import HealthChecks from './healthChecks';
+import Monitor from './monitor';
+import healthChecksFor from './healthChecksFor';
+import bambooCheckFor from './bambooCheckFor';
 import handleRender from './renderer';
 import Broadcaster from './broadcaster';
 
@@ -29,29 +31,31 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 app.use(webpackHotMiddleware(compiler));
 
-const dashboardConfig = Yaml.load('./dashboard-config.yaml');
+const dashboardConfig = Yaml.load(process.argv[process.argv.length - 1]);
 
-const productionEnvironment = new HealthChecks(
-  broadcaster,
-  'updateProduction',
-  dashboardConfig.productionEnvironment);
+const productionHealthChecks = healthChecksFor(dashboardConfig.productionEnvironment);
+const production = new Monitor(broadcaster, 'updateProduction', productionHealthChecks);
+production.monitor();
 
-productionEnvironment.monitor();
-
-const testEnvs = new HealthChecks(
-  broadcaster,
-  'updateTestEnvs',
-  dashboardConfig.testEnvironments);
-
+const testEnvHealthChecks = healthChecksFor(dashboardConfig.testEnvironments);
+const testEnvs = new Monitor(broadcaster, 'updateTestEnvs', testEnvHealthChecks);
 testEnvs.monitor();
+
+const bambooCheck = bambooCheckFor(dashboardConfig.bamboo);
+const bamboo = new Monitor(broadcaster, 'updateCi', bambooCheck);
+bamboo.monitor();
 
 const preloadedState = () => ({
   testEnvs: {
     failures: testEnvs.failures,
   },
   production: {
-    failures: productionEnvironment.failures,
+    failures: production.failures,
   },
+  ci: {
+    failures: bamboo.failures,
+  },
+
 });
 
 app.use(handleRender(preloadedState));

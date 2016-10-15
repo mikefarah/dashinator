@@ -11,8 +11,10 @@ const updateFailureList = updateListCategory => (state = {
 
 const testEnvs = updateFailureList('updateTestEnvs');
 const production = updateFailureList('updateProduction');
+const ci = updateFailureList('updateCi');
 
 module.exports = {
   testEnvs,
   production,
+  ci,
 };

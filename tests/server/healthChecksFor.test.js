@@ -1,28 +1,31 @@
 import sinon from 'sinon';
 import 'sinon-as-promised';
 
-import checkServiceHealth from '../../server/checkServiceHealth';
+import healthChecksFor from '../../server/healthChecksFor';
 
-describe('checkServiceHealth', () => {
-  const service = {
+describe('healthChecksFor', () => {
+  const services = [{
     name: 'my service',
     url: 'http://blah',
-  };
+  }];
   let requestStub;
+
+  let healthCheck;
 
   beforeEach(() => {
     requestStub = sinon.stub().resolves();
-    checkServiceHealth.__Rewire__('request', requestStub);
+    healthChecksFor.__Rewire__('request', requestStub);
+    healthCheck = healthChecksFor(services);
   });
 
   context('service is healthy', () => {
-    it('returns OK', () => checkServiceHealth(service)
-      .then(result => expect(result).toEqual(
+    it('returns OK', () => healthCheck()
+      .then(results => expect(results).toEqual([
         {
           name: 'my service',
           status: 'OK',
           url: 'http://blah',
-        }
+        }]
       )
     ));
   });
@@ -32,13 +35,13 @@ describe('checkServiceHealth', () => {
       requestStub.reset().rejects(new Error('no'));
     });
 
-    it('returns the error message', () => checkServiceHealth(service)
-      .then(result => expect(result).toEqual(
+    it('returns the error message', () => healthCheck()
+      .then(results => expect(results).toEqual([
         {
           name: 'my service',
           status: 'no',
           url: 'http://blah',
-        }
+        }]
       )
     ));
   });

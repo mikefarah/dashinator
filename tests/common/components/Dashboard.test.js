@@ -11,6 +11,7 @@ describe('Dashboard', () => {
       <Dashboard
         testEnvs={ { failures: [] } }
         production={ { failures: [] } }
+        ci={ { failures: [] } }
         connection='disconnected'
       />
     );
