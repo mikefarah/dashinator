@@ -9,26 +9,19 @@ Currently it supports Bamboo, happy for pull requests to accept other CI tools t
 
 ## Usage
 
+### GIT
+Clone the repo then
 ```sh
-npm install -g dasher
-dasher myTeamsConfig.yaml
+./server/index.js myTeamsConfig.yaml
 ```
-
-Alternatively, you can install it locally:
-
-```sh
-npm install dasher
-./node_modules/.bin/dasher myTeamsConfig.yaml
-```
-
-Then browse to http://localhost:3000
 
 ### Docker
 
 ```
-docker build -t dasher .
-cat myTeamsConfig.yaml | docker run -i -p3000:3000 dasher -
+cat myTeamsConfig.yaml | docker run -i -p 3000:3000 mikefarah/dasher -
 ```
+
+Then browse to http://localhost:3000
 
 ## Example config YAML
 
