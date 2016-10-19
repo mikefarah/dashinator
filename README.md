@@ -23,6 +23,13 @@ npm install dasher
 
 Then browse to http://localhost:3000
 
+### Docker
+
+```
+docker build -t dasher .
+cat myTeamsConfig.yaml | docker run -i -p3000:3000 dasher -
+```
+
 ## Example config YAML
 
 ```yaml
@@ -54,8 +61,6 @@ Dasher will poll the services and bamboo every 20 seconds and update the dashboa
 ## TODO
 
 - More unit tests
-- Dockerify
-
 
 ## Contributing
 

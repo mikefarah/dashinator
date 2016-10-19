@@ -6,7 +6,8 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import lessMiddleware from 'less-middleware';
 import winston from 'winston';
 import Yaml from 'yamljs';
-
+import gather from 'gather-stream';
+import fs from 'fs';
 import webpackConfig from '../webpack.config';
 
 import Monitor from './monitor';
@@ -31,42 +32,62 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 app.use(webpackHotMiddleware(compiler));
 
-const dashboardConfig = Yaml.load(process.argv[2]);
+function start(configuration) {
+  const dashboardConfig = Yaml.parse(configuration);
 
-const productionHealthChecks = healthChecksFor(dashboardConfig.productionEnvironment);
-const production = new Monitor(broadcaster, 'updateProduction', productionHealthChecks);
-production.monitor();
+  const productionHealthChecks = healthChecksFor(dashboardConfig.productionEnvironment);
+  const production = new Monitor(broadcaster, 'updateProduction', productionHealthChecks);
+  production.monitor();
 
-const testEnvHealthChecks = healthChecksFor(dashboardConfig.testEnvironments);
-const testEnvs = new Monitor(broadcaster, 'updateTestEnvs', testEnvHealthChecks);
-testEnvs.monitor();
+  const testEnvHealthChecks = healthChecksFor(dashboardConfig.testEnvironments);
+  const testEnvs = new Monitor(broadcaster, 'updateTestEnvs', testEnvHealthChecks);
+  testEnvs.monitor();
 
-const bambooCheck = bambooCheckFor(dashboardConfig.bamboo);
-const bamboo = new Monitor(broadcaster, 'updateCi', bambooCheck);
-bamboo.monitor();
+  const bambooCheck = bambooCheckFor(dashboardConfig.bamboo);
+  const bamboo = new Monitor(broadcaster, 'updateCi', bambooCheck);
+  bamboo.monitor();
 
-const preloadedState = () => ({
-  testEnvs: {
-    failures: testEnvs.failures,
-  },
-  production: {
-    failures: production.failures,
-  },
-  ci: {
-    failures: bamboo.failures,
-  },
+  const preloadedState = () => ({
+    testEnvs: {
+      failures: testEnvs.failures,
+    },
+    production: {
+      failures: production.failures,
+    },
+    ci: {
+      failures: bamboo.failures,
+    },
 
-});
+  });
 
-app.use(handleRender(preloadedState));
+  app.use(handleRender(preloadedState));
 
-const server = app.listen(port, (error) => {
+  const server = app.listen(port, (error) => {
+    if (error) {
+      winston.error(error);
+    } else {
+      winston.info(`==>  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`);
+    }
+  });
+
+  broadcaster.attach(server);
+}
+
+if (process.argv.length < 3) {
+  winston.info('Usage:');
+  winston.info('dasher [config.yml | -]');
+  winston.info('Note that you can provide the config via stdin if you pass "-"');
+  winston.info('\n--Sample config--\n');
+  winston.info(fs.readFileSync(`${__dirname}/../sample-dashboard-config.yaml`).toString());
+  process.exit(1);
+}
+
+const fileArg = process.argv[2];
+const stream = fileArg === '-' ? process.stdin : fs.createReadStream(fileArg);
+stream.pipe(gather((error, configuration) => {
   if (error) {
     winston.error(error);
-  } else {
-    winston.info(`==>  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`);
+    process.exit(1);
   }
-});
-
-broadcaster.attach(server);
-
+  start(configuration.toString());
+}));
