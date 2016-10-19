@@ -1,6 +1,6 @@
 {
   "name": "Dasher",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Dasher the daringly delightful dashboard.",
   "scripts": {
     "test": "./precommit.sh",
