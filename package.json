@@ -1,7 +1,7 @@
 {
-  "name": "Dasher",
+  "name": "Dashinator",
   "version": "1.0.3",
-  "description": "Dasher the daringly delightful dashboard.",
+  "description": "Dashinator the daringly delightful dashboard.",
   "scripts": {
     "test": "./precommit.sh",
     "start": "node server/index.js"
@@ -13,13 +13,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:mikefarah/dasher.git"
+    "url": "git@github.com:mikefarah/dashinator.git"
   },
   "bin": {
-    "dasher": "./server/index.js"
+    "dashinator": "./server/index.js"
   },
   "license": "MIT",
-  "homepage": "https://github.com/mikefarah/dasher",
+  "homepage": "https://github.com/mikefarah/dashinator",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "babel-register": "^6.4.3",

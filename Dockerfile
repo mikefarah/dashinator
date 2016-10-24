@@ -1,11 +1,11 @@
 FROM node:6-slim
 
-RUN mkdir /opt/dasher
-WORKDIR /opt/dasher
+RUN mkdir /opt/dashinator
+WORKDIR /opt/dashinator
 
-COPY package.json /opt/dasher/package.json
+COPY package.json /opt/dashinator/package.json
 RUN npm install --loglevel warn
 
-COPY . /opt/dasher
+COPY . /opt/dashinator
 
 ENTRYPOINT ["node", "server/index.js"]

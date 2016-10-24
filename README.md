@@ -1,5 +1,5 @@
-# dasher [![Build Status](https://travis-ci.org/mikefarah/dasher.svg?branch=master)](https://travis-ci.org/mikefarah/dasher)
-Dasher the daringly delightful dashboard. A node + react + redux replacement for [dashing](https://github.com/Shopify/dashing/blob/master/README.md).
+# dashinator [![Build Status](https://travis-ci.org/mikefarah/dashinator.svg?branch=master)](https://travis-ci.org/mikefarah/dashinator)
+dashinator the daringly delightful dashboard. A node + react + redux replacement for [dashing](https://github.com/Shopify/dashing/blob/master/README.md).
 
 I use it to monitor a bunch of micro-services across several environments, and relevant the CI builds and deployments. Because there are so many things to monitor, I don't want to clutter the dashboard making it noisy and hard to read. Instead, the dashboard only reports on failures for Production, Test environments and the CI.
 
@@ -18,7 +18,7 @@ Clone the repo then
 ### Docker
 
 ```
-cat myTeamsConfig.yaml | docker run -i -p 3000:3000 mikefarah/dasher -
+cat myTeamsConfig.yaml | docker run -i -p 3000:3000 mikefarah/dashinator -
 ```
 
 Then browse to http://localhost:3000
@@ -49,7 +49,7 @@ bamboo:
 
 The health_check endpoints are assumed to return a successful HTTP response code if the service is healthy (successful as defined by node's request library).
 
-Dasher will poll the services and bamboo every 20 seconds and update the dashboard accordingly.
+dashinator will poll the services and bamboo every 20 seconds and update the dashboard accordingly.
 
 
 ## Ignore self signed certificates
@@ -59,7 +59,7 @@ Set the NODE_TLS_REJECT_UNAUTHORIZED environment variable to 0.
 e.g:
 
 ```
-cat myTeamsConfig.yaml | docker run -i -p 3000:3000 -e NODE_TLS_REJECT_UNAUTHORIZED=0 mikefarah/dasher -
+cat myTeamsConfig.yaml | docker run -i -p 3000:3000 -e NODE_TLS_REJECT_UNAUTHORIZED=0 mikefarah/dashinator -
 ```
 
 or
