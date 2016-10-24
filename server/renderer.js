@@ -9,7 +9,7 @@ function renderFullPage(html, preloadedState) {
     <!doctype html>
     <html>
       <head>
-        <title>Dashboard Dasher Style</title>
+        <title>Dashboard Dashinator Style</title>
         <link rel="stylesheet" href="/application.css">
       </head>
       <body style='margin: 0px'>
