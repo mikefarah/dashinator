@@ -51,6 +51,23 @@ The health_check endpoints are assumed to return a successful HTTP response code
 
 Dasher will poll the services and bamboo every 20 seconds and update the dashboard accordingly.
 
+
+## Ignore self signed certificates
+
+Set the NODE_TLS_REJECT_UNAUTHORIZED environment variable to 0.
+
+e.g:
+
+```
+cat myTeamsConfig.yaml | docker run -i -p 3000:3000 -e NODE_TLS_REJECT_UNAUTHORIZED=0 mikefarah/dasher -
+```
+
+or
+
+```sh
+NODE_TLS_REJECT_UNAUTHORIZED=0 ./server/index.js myTeamsConfig.yaml
+```
+
 ## TODO
 
 - More unit tests
