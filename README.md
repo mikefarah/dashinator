@@ -1,7 +1,7 @@
 # dashinator [![Build Status](https://travis-ci.org/mikefarah/dashinator.svg?branch=master)](https://travis-ci.org/mikefarah/dashinator)
 dashinator the daringly delightful dashboard. A node + react + redux replacement for [dashing](https://github.com/Shopify/dashing/blob/master/README.md).
 
-I use it to monitor a bunch of micro-services across several environments, and relevant the CI builds and deployments. Because there are so many things to monitor, I don't want to clutter the dashboard making it noisy and hard to read. Instead, the dashboard only reports on failures for Production, Test environments and the CI.
+Use it as an information radar for teams. I use it to monitor a bunch of micro-services across several environments, and relevant the CI builds and deployments. Because there are so many things to monitor, I don't want to clutter the dashboard making it noisy and hard to read. Instead, the dashboard only reports on failures for Production, Test environments and the CI.
 
 Currently it supports Bamboo, happy for pull requests to accept other CI tools too :)
 
