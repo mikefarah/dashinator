@@ -12,8 +12,12 @@ class Monitor {
   }
 
   monitor() {
+    const startTime = Date.now();
     return this.runCheck()
-      .then(state => this.updateState(state))
+      .then((state) => {
+        const elapsed = Date.now() - startTime;
+        this.updateState(Object.assign({}, state, { elapsed }));
+      })
       .then(() => setTimeout(() => this.monitor(), intervalMs))
       .catch((err) => {
         winston.error(err);
@@ -25,19 +29,16 @@ class Monitor {
   updateState(state) {
     this.failures = _.reject(state.results, s => s.status === 'OK');
     this.description = state.description;
+    this.elapsed = state.elapsed;
     this.broadcast();
   }
 
   getState() {
-    return _.pick(this, ['failures', 'description']);
+    return _.pick(this, ['failures', 'description', 'elapsed']);
   }
 
   broadcast() {
-    this.broadcaster.broadcast({
-      type: this.actionType,
-      failures: this.failures,
-      description: this.description,
-    });
+    this.broadcaster.broadcast(Object.assign({ type: this.actionType }, this.getState()));
   }
 }
 

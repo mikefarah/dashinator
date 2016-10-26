@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import 'sinon-as-promised';
+import _ from 'lodash';
 
 import winstonStub from '../winstonStub';
 import Monitor from '../../server/monitor';
@@ -42,7 +43,12 @@ describe('Monitor', () => {
       });
 
       it('updates the state the new state', () => {
-        expect(monitor.updateState.firstCall.args[0]).toEqual(state);
+        const actual = _.omit(monitor.updateState.firstCall.args[0], ['elapsed']);
+        expect(actual).toEqual(_.omit(state, ['elapsed']));
+      });
+
+      it('calculates the elapsed time', () => {
+        expect(monitor.updateState.firstCall.args[0].elapsed).toBeGreaterThanOrEqual(0);
       });
 
       it('schedules to call itself', () => {

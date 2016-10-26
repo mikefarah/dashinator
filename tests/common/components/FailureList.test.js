@@ -9,7 +9,7 @@ describe('FailureList', () => {
 
   context('there are no failures', () => {
     beforeEach(() => {
-      component = shallow(<FailureList name='test' state={ { failures: [], description: 'cat' } } />);
+      component = shallow(<FailureList name='test' state={ { failures: [], description: 'cat', elapsed: 1234 } } />);
     });
 
     it("has a 'no-failures' class name", () => {
@@ -21,7 +21,11 @@ describe('FailureList', () => {
     });
 
     it('renders the description', () => {
-      expect(component.find('.footer').text()).toEqual('cat');
+      expect(component.find('.footer .description').text()).toEqual('cat');
+    });
+
+    it('renders the elapsed time', () => {
+      expect(component.find('.footer .elapsed').text()).toEqual('in 1.234 seconds');
     });
   });
 
