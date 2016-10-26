@@ -48,16 +48,9 @@ function start(configuration) {
   bamboo.monitor();
 
   const preloadedState = () => ({
-    testEnvs: {
-      failures: testEnvs.failures,
-    },
-    production: {
-      failures: production.failures,
-    },
-    ci: {
-      failures: bamboo.failures,
-    },
-
+    testEnvs: testEnvs.getState(),
+    production: production.getState(),
+    ci: bamboo.getState(),
   });
 
   app.use(handleRender(preloadedState));

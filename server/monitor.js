@@ -13,24 +13,30 @@ class Monitor {
 
   monitor() {
     return this.runCheck()
-      .then(results => this.updateState(results))
+      .then(state => this.updateState(state))
       .then(() => setTimeout(() => this.monitor(), intervalMs))
       .catch((err) => {
         winston.error(err);
-        this.updateState([{ name: err.message, status: 'Exception', url: '#' }]);
+        this.updateState({ results: [{ name: err.message, status: 'Exception', url: '#' }] });
         setTimeout(() => this.monitor(), intervalMs);
       });
   }
 
-  updateState(results) {
-    this.failures = _.reject(results, s => s.status === 'OK');
+  updateState(state) {
+    this.failures = _.reject(state.results, s => s.status === 'OK');
+    this.description = state.description;
     this.broadcast();
+  }
+
+  getState() {
+    return _.pick(this, ['failures', 'description']);
   }
 
   broadcast() {
     this.broadcaster.broadcast({
       type: this.actionType,
       failures: this.failures,
+      description: this.description,
     });
   }
 }

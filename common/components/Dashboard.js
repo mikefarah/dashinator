@@ -6,13 +6,13 @@ const Dashboard = ({ connection, testEnvs, production, ci }) => (
     <div className={ `connectionAlert ${connection}` }>Connection Lost</div>
     <div className='columnContainer'>
       <div className='rowContainer'>
-        <FailureList failures={ production.failures } name='Production' />
+        <FailureList name='Production' state={ production } />
       </div>
       <div className='rowContainer'>
-        <FailureList failures={ testEnvs.failures } name='Test Environments' />
+        <FailureList name='Test Environments' state={ testEnvs } />
       </div>
       <div className='rowContainer'>
-        <FailureList failures={ ci.failures } name='CI' />
+        <FailureList name='CI' state={ ci } />
       </div>
     </div>
   </div>
@@ -20,24 +20,9 @@ const Dashboard = ({ connection, testEnvs, production, ci }) => (
 
 Dashboard.propTypes = {
   connection: PropTypes.string.isRequired,
-  testEnvs: PropTypes.shape({
-    failures: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    })).isRequired,
-  }).isRequired,
-  production: PropTypes.shape({
-    failures: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    })).isRequired,
-  }).isRequired,
-  ci: PropTypes.shape({
-    failures: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    })).isRequired,
-  }).isRequired,
+  testEnvs: React.PropTypes.object.isRequired,
+  production: React.PropTypes.object.isRequired,
+  ci: React.PropTypes.object.isRequired,
 };
 
 export default Dashboard;

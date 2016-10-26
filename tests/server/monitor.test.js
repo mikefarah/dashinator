@@ -27,9 +27,13 @@ describe('Monitor', () => {
     });
 
     context('runCheck succeeds', () => {
-      const results = [{ name: 'test', url: 'somewere', status: 'OK' }];
+      const state = {
+        results: [{ name: 'test', url: 'somewere', status: 'OK' }],
+        description: 'sweet',
+      };
+
       beforeEach(() => {
-        runCheck.reset().resolves(results);
+        runCheck.reset().resolves(state);
         return monitor.monitor();
       });
 
@@ -37,8 +41,8 @@ describe('Monitor', () => {
         expect(runCheck.callCount).toEqual(1);
       });
 
-      it('updates the state the results', () => {
-        expect(monitor.updateState.firstCall.args[0]).toEqual(results);
+      it('updates the state the new state', () => {
+        expect(monitor.updateState.firstCall.args[0]).toEqual(state);
       });
 
       it('schedules to call itself', () => {
@@ -54,7 +58,9 @@ describe('Monitor', () => {
       });
 
       it('updates the state with an error', () => {
-        expect(monitor.updateState.firstCall.args[0]).toEqual([{ name: 'badness', status: 'Exception', url: '#' }]);
+        expect(monitor.updateState.firstCall.args[0]).toEqual({
+          results: [{ name: 'badness', status: 'Exception', url: '#' }],
+        });
       });
 
       it('schedules to call itself', () => {
@@ -74,15 +80,22 @@ describe('Monitor', () => {
       status: 'Failure',
     };
 
-    const results = [serverResults1, serverResults2];
+    const state = {
+      results: [serverResults1, serverResults2],
+      description: 'checking things!',
+    };
 
     beforeEach(() => {
       monitor.broadcast = sinon.stub();
-      monitor.updateState(results);
+      monitor.updateState(state);
     });
 
     it('sets the failures property to the failed health checks', () => {
       expect(monitor.failures).toEqual([serverResults2]);
+    });
+
+    it('sets the description', () => {
+      expect(monitor.description).toEqual(state.description);
     });
 
     it('calls broadcast to broadcast the results', () => {

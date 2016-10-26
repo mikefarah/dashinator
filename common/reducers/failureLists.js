@@ -4,6 +4,7 @@ const updateFailureList = updateListCategory => (state = {
   if (action.type === updateListCategory) {
     return Object.assign({}, state, {
       failures: action.failures,
+      description: action.description,
     });
   }
   return state;

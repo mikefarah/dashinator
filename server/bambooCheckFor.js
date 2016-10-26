@@ -21,6 +21,10 @@ const checkLatestBuild = (bambooConfig, plan) => {
 };
 
 const bambooCheckFor = bambooConfig => () =>
-  Promise.all(bambooConfig.plans.map(plan => checkLatestBuild(bambooConfig, plan)));
+  Promise.all(bambooConfig.plans.map(plan => checkLatestBuild(bambooConfig, plan)))
+    .then(results => ({
+      results,
+      description: `Monitoring ${bambooConfig.plans.length} bamboo plan(s)`,
+    }));
 
 module.exports = bambooCheckFor;

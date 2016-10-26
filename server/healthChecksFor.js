@@ -11,6 +11,10 @@ const checkServiceHealth = service => request({
   }));
 
 const healthChecksFor = servers => () =>
-  Promise.all(servers.map(s => checkServiceHealth(s)));
+  Promise.all(servers.map(s => checkServiceHealth(s)))
+    .then(results => ({
+      results,
+      description: `Monitoring ${servers.length} service(s)`,
+    }));
 
 module.exports = healthChecksFor;

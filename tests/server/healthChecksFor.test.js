@@ -20,13 +20,15 @@ describe('healthChecksFor', () => {
 
   context('service is healthy', () => {
     it('returns OK', () => healthCheck()
-      .then(results => expect(results).toEqual([
-        {
-          name: 'my service',
-          status: 'OK',
-          url: 'http://blah',
-        }]
-      )
+      .then(state => expect(state).toEqual({
+        results: [
+          {
+            name: 'my service',
+            status: 'OK',
+            url: 'http://blah',
+          }],
+        description: 'Monitoring 1 service(s)',
+      })
     ));
   });
 
@@ -36,13 +38,15 @@ describe('healthChecksFor', () => {
     });
 
     it('returns the error message', () => healthCheck()
-      .then(results => expect(results).toEqual([
-        {
-          name: 'my service',
-          status: 'no',
-          url: 'http://blah',
-        }]
-      )
+      .then(state => expect(state).toEqual({
+        results: [
+          {
+            name: 'my service',
+            status: 'no',
+            url: 'http://blah',
+          }],
+        description: 'Monitoring 1 service(s)',
+      })
     ));
   });
 });

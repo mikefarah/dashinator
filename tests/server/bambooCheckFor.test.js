@@ -44,12 +44,14 @@ describe('bambooCheckFor', () => {
     });
 
     it('returns an OK status', () =>
-      bambooCheck().then(results =>
-          expect(results).toEqual([{
-            name: 'My Plan',
-            status: 'OK',
-            url: 'http://base/browse/ABC-1234',
-          }])
+      bambooCheck().then(state =>
+          expect(state).toEqual({
+            results: [{
+              name: 'My Plan',
+              status: 'OK',
+              url: 'http://base/browse/ABC-1234',
+            }],
+            description: 'Monitoring 1 bamboo plan(s)' })
       )
     );
 
@@ -72,12 +74,13 @@ describe('bambooCheckFor', () => {
     });
 
     it('returns the failure status', () =>
-      bambooCheck().then(results =>
-          expect(results).toEqual([{
+      bambooCheck().then(state =>
+          expect(state).toEqual({ results: [{
             name: 'My Plan',
             status: 'FAILED',
             url: 'http://base/browse/ABC-1234',
-          }])
+          }],
+          description: 'Monitoring 1 bamboo plan(s)' })
       )
     );
   });
@@ -88,8 +91,8 @@ describe('bambooCheckFor', () => {
     });
 
     it('returns the exceptiom details', () =>
-      bambooCheck().then(results =>
-          expect(results).toEqual([{
+      bambooCheck().then(state =>
+          expect(state.results).toEqual([{
             name: 'Access Denied',
             status: 'Exception',
             url: '#',

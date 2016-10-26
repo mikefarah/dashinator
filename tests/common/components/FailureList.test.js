@@ -9,7 +9,7 @@ describe('FailureList', () => {
 
   context('there are no failures', () => {
     beforeEach(() => {
-      component = shallow(<FailureList name='test' failures={ [] } />);
+      component = shallow(<FailureList name='test' state={ { failures: [], description: 'cat' } } />);
     });
 
     it("has a 'no-failures' class name", () => {
@@ -18,6 +18,10 @@ describe('FailureList', () => {
 
     it("does not have a 'has-failures' class name", () => {
       expect(component.find('.has-failures').length).toEqual(0);
+    });
+
+    it('renders the description', () => {
+      expect(component.find('.footer').text()).toEqual('cat');
     });
   });
 
@@ -28,7 +32,7 @@ describe('FailureList', () => {
     }];
 
     beforeEach(() => {
-      component = shallow(<FailureList name='test' failures={ failures } />);
+      component = shallow(<FailureList name='test' state={ { failures } } />);
     });
 
     it("does not have a 'no-failures' class name", () => {
