@@ -68,9 +68,6 @@ or
 NODE_TLS_REJECT_UNAUTHORIZED=0 ./server/index.js myTeamsConfig.yaml
 ```
 
-## TODO
-
-- More unit tests
 
 ## Contributing
 

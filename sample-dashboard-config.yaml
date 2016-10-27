@@ -9,7 +9,7 @@ testEnvironments:
     url: http://localhost:9999
 
 bamboo:
-  baseUrl: https://bamboo.com
+  baseUrl: https://localhost:9999/bamboo
   requestOptions:
     strictSSL: false
     auth:
