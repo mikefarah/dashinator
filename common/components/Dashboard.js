@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import FailureList from './FailureList';
-import Gauge from './Gauge';
 
 const Dashboard = ({ connection, testEnvs, production, ci }) => (
   <div className='dashboard'>
@@ -14,7 +13,6 @@ const Dashboard = ({ connection, testEnvs, production, ci }) => (
       </div>
       <div className='rowContainer'>
         <FailureList name='CI' state={ ci } />
-        <Gauge title='30 Speed' value={60} description="so many!"/>
       </div>
     </div>
   </div>
