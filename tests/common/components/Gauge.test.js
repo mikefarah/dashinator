@@ -7,11 +7,11 @@ describe('Gauge', () => {
   let gauge;
 
   beforeEach(() => {
-    gauge = shallow(<Gauge title='test' value={30} description='cats' />);
+    gauge = shallow(<Gauge name='test' value={30} description='cats' />);
   });
 
-  it('renders the title', () => {
-    expect(gauge.find('.title').text()).toEqual('test');
+  it('renders the name', () => {
+    expect(gauge.find('.name').text()).toEqual('test');
   });
 
   it('renders the description', () => {
@@ -19,6 +19,6 @@ describe('Gauge', () => {
   });
 
   it('renders a donut chart', () => {
-    expect(gauge.find('.ct-chart-donut')).toBeDefined();
+    expect(gauge.find('ChartistGraph').isEmpty()).toEqual(false);
   });
 });
