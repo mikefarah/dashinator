@@ -9,7 +9,7 @@ describe('Dashboard', () => {
   beforeEach(() => {
     dashboard = shallow(
       <Dashboard
-        testEnvs={ { failures: [] } }
+        testEnvs={ { failures: [], elapsed: 30 } }
         production={ { failures: [] } }
         ci={ { failures: [] } }
         connection='disconnected'

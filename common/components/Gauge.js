@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import _ from 'lodash';
 import ChartistGraph from 'react-chartist';
 
-const Gauge = ({ name, value, description, max = 100 }) => {
+const Gauge = ({ name, value, description, unit, max = 100 }) => {
   const data = {
     series: [{
       className: 'gauge-fill',
@@ -23,8 +23,10 @@ const Gauge = ({ name, value, description, max = 100 }) => {
 
   return (<div className='gauge'>
         <div className='content'>
-          <ChartistGraph data={data} options={options} type='Pie' />
           <div className='name'>{name}</div>
+          <ChartistGraph data={data} options={options} type='Pie' />
+          <div className='value'>{value}</div>
+          <div className='unit'>{unit}</div>
         </div>
         <div className='footer'>
           <span className='description'>{ description }</span>
@@ -35,6 +37,7 @@ const Gauge = ({ name, value, description, max = 100 }) => {
 Gauge.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
+  unit: PropTypes.string,
   description: PropTypes.string,
   max: PropTypes.number,
 };

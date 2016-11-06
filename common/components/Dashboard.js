@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import FailureList from './FailureList';
+import Gauge from './Gauge';
+import Counter from './Counter';
 
 const Dashboard = ({ connection, testEnvs, production, ci }) => (
   <div className='dashboard'>
@@ -10,9 +12,11 @@ const Dashboard = ({ connection, testEnvs, production, ci }) => (
       </div>
       <div className='rowContainer'>
         <FailureList name='Test Environments' state={ testEnvs } />
+        <Gauge name='Monthly Target' value={testEnvs.elapsed * 3} max={90} unit='apples'/>
       </div>
       <div className='rowContainer'>
         <FailureList name='CI' state={ ci } />
+        <Counter name='Open tickets' value={testEnvs.elapsed}/>
       </div>
     </div>
   </div>
