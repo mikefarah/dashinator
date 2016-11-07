@@ -9,6 +9,8 @@ Currently it supports Bamboo, happy for pull requests to accept other CI tools t
 
 ## Usage
 
+You can use it 'out of the box' by providing a configuration. However, for more advanced customisation you will probably need to fork/clone it and hack away.
+
 ### GIT
 Clone the repo then
 ```sh
