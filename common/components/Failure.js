@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react';
+import truncate from 'truncate';
 
-const Failure = ({ name, url }) => (
+const Failure = ({ name, url, reason }) => (
   <div className='failure'>
     <a href={ url }>
-      { name }
+      <div className='name'>{ name }</div>
+      <div className='reason'>{truncate(reason, 60)}</div>
     </a>
   </div>
 );
@@ -11,6 +13,7 @@ const Failure = ({ name, url }) => (
 Failure.propTypes = {
   name: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  reason: PropTypes.string,
 };
 
 export default Failure;

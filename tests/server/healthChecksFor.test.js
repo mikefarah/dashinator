@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import 'sinon-as-promised';
+import winstonStub from '../winstonStub';
 
 import healthChecksFor from '../../server/healthChecksFor';
 
@@ -15,6 +16,7 @@ describe('healthChecksFor', () => {
   beforeEach(() => {
     requestStub = sinon.stub().resolves();
     healthChecksFor.__Rewire__('request', requestStub);
+    healthChecksFor.__Rewire__('winston', winstonStub);
     healthCheck = healthChecksFor(services);
   });
 

@@ -1,11 +1,18 @@
 import request from 'request-promise-native';
+import winston from 'winston';
 
 const checkServiceHealth = service => request({
   uri: service.url,
   resolveWithFullResponse: true,
 })
   .then(() => 'OK')
-  .catch(err => err.message)
+  .catch((err) => {
+    winston.warn(`Error checking ${service.url}`, err);
+    if (err.response) {
+      return `${err.response.statusCode} - ${err.response.body}`;
+    }
+    return err.message.replace(/^Error: /, '');
+  })
   .then(status => Object.assign({}, service, {
     status,
   }));

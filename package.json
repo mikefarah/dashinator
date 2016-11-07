@@ -41,6 +41,7 @@
     "serve-static": "^1.10.0",
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8",
+    "truncate": "^2.0.0",
     "webpack": "^1.11.0",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.9.1",
