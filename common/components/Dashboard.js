@@ -3,7 +3,7 @@ import FailureList from './FailureList';
 import Gauge from './Gauge';
 import Counter from './Counter';
 
-const Dashboard = ({ connection, testEnvs, production, ci }) => (
+const Dashboard = ({ connection, testEnvs, production, ci, kitchenSink }) => (
   <div className='dashboard'>
     <div className={ `connectionAlert ${connection}` }>Connection Lost</div>
     <div className='columnContainer'>
@@ -12,11 +12,16 @@ const Dashboard = ({ connection, testEnvs, production, ci }) => (
       </div>
       <div className='rowContainer'>
         <FailureList name='Test Environments' state={ testEnvs } />
-        <Gauge name='Monthly Target' value={testEnvs.elapsed * 3} max={90} unit='apples'/>
+        { kitchenSink &&
+          <Gauge className='monthlyTarget' name='Monthly Target'
+            value={testEnvs.elapsed * 3} max={90} unit='apples'/>
+        }
       </div>
       <div className='rowContainer'>
         <FailureList name='CI' state={ ci } />
-        <Counter name='Open tickets' value={testEnvs.elapsed}/>
+        { kitchenSink &&
+          <Counter name='Open tickets' value={testEnvs.elapsed}/>
+        }
       </div>
     </div>
   </div>
@@ -27,6 +32,7 @@ Dashboard.propTypes = {
   testEnvs: React.PropTypes.object.isRequired,
   production: React.PropTypes.object.isRequired,
   ci: React.PropTypes.object.isRequired,
+  kitchenSink: React.PropTypes.bool,
 };
 
 export default Dashboard;

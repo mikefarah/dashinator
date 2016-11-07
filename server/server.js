@@ -51,6 +51,7 @@ function start(configuration) {
     testEnvs: testEnvs.getState(),
     production: production.getState(),
     ci: bamboo.getState(),
+    kitchenSink: dashboardConfig.kitchenSink,
   });
 
   app.use(handleRender(preloadedState));

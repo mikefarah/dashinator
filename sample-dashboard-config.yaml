@@ -1,3 +1,4 @@
+kitchenSink: true
 productionEnvironment:
   - name: http listener
     url: http://localhost:9999
