@@ -21,7 +21,18 @@ describe('Counter', () => {
   });
 
   it('renders the value', () => {
-    expect(counter.find('.value').text()).toEqual('30');
+    expect(counter.find('.value').text()).toEqual('30.0');
+  });
+
+  context('format the value', () => {
+    beforeEach(() => {
+      counter.setProps({ value: 1024, formatString: '0b' });
+      jest.runAllTimers();
+    });
+
+    it('renders the value', () => {
+      expect(counter.find('.value').text()).toEqual('1KB');
+    });
   });
 
   context('updating the value', () => {
@@ -31,7 +42,7 @@ describe('Counter', () => {
     });
 
     it('renders the value', () => {
-      expect(counter.find('.value').text()).toEqual('40');
+      expect(counter.find('.value').text()).toEqual('40.0');
     });
   });
 });

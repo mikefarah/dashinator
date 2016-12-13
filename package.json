@@ -29,6 +29,7 @@
     "humanize-duration": "^3.9.1",
     "less-middleware": "^2.2.0",
     "lodash": "^4.16.2",
+    "numeral": "^2.0.1",
     "raf": "^3.3.0",
     "react": "^15.4.1",
     "react-chartist": "^0.10.2",

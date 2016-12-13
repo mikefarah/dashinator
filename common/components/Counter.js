@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import raf from 'raf';
 import ease from 'ease-component';
 import _ from 'lodash';
+import numeral from 'numeral';
 
 const animationTime = 1000;
 
@@ -70,17 +71,24 @@ class Counter extends React.Component {
     return <div className='counter'>
       <div className="content">
       <div className='name'>{this.props.name}</div>
-      <div className='value'>{Math.round(this.state.currentValue)}</div>
+      <div className='value'>
+        {numeral(this.state.currentValue).format(this.props.formatString)}
+      </div>
       <div className='unit'>{this.props.unit}</div>
       </div>
     </div>;
   }
 }
 
+Counter.defaultProps = {
+  formatString: '0.0a',
+};
+
 Counter.propTypes = {
   value: PropTypes.number.isRequired,
   name: React.PropTypes.string,
   unit: React.PropTypes.string,
+  formatString: React.PropTypes.string,
 };
 
 module.exports = Counter;
