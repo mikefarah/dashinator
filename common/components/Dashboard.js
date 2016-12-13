@@ -12,7 +12,7 @@ const Dashboard = ({ connection, testEnvs, production, ci, kitchenSink, heapGrap
         <FailureList name='Production' state={ production } />
         { kitchenSink &&
             <RickshawGraph
-            name='Elapsed Job time'
+            name='Heap size'
             series={[{ name: 'heapGraph', data: heapGraph.data }]}
             formatString='0.0 b'/>
         }
