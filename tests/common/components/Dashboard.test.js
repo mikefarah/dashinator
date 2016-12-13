@@ -14,6 +14,7 @@ describe('Dashboard', () => {
         production={ { failures: [] } }
         ci={ { failures: [] } }
         connection='disconnected'
+        heapGraph={{ data: [{ x: 1, y: 2 }] }}
         kitchenSink={true}
       />
       );
@@ -21,6 +22,10 @@ describe('Dashboard', () => {
 
     it('renders the counter', () => {
       expect(dashboard.find('Counter').length).toEqual(1);
+    });
+
+    it('renders the heapGraph', () => {
+      expect(dashboard.find('RickshawGraph').length).toEqual(1);
     });
 
     it('renders the gauge', () => {
@@ -36,6 +41,7 @@ describe('Dashboard', () => {
         production={ { failures: [] } }
         ci={ { failures: [] } }
         connection='disconnected'
+        heapGraph={{ data: [{ x: 1, y: 2 }] }}
       />
       );
     });

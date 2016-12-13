@@ -16,6 +16,8 @@ import bambooCheckFor from './bambooCheckFor';
 import handleRender from './renderer';
 import Broadcaster from './broadcaster';
 
+import HeapGraph from './heapGraph';
+
 const broadcaster = new Broadcaster();
 
 const app = new Express();
@@ -47,11 +49,15 @@ function start(configuration) {
   const bamboo = new Monitor(broadcaster, 'updateCi', bambooCheck);
   bamboo.monitor();
 
+  const heapGraph = new HeapGraph(broadcaster);
+  heapGraph.monitor();
+
   const preloadedState = () => ({
     testEnvs: testEnvs.getState(),
     production: production.getState(),
     ci: bamboo.getState(),
     kitchenSink: dashboardConfig.kitchenSink,
+    heapGraph: heapGraph.getState(),
   });
 
   app.use(handleRender(preloadedState));

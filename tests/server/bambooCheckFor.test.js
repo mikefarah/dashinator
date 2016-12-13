@@ -80,7 +80,7 @@ describe('bambooCheckFor', () => {
             status: 'FAILED',
             url: 'http://base/browse/ABC-1234',
           }],
-          description: 'Monitoring 1 bamboo plan(s)' })
+            description: 'Monitoring 1 bamboo plan(s)' })
       )
     );
   });
