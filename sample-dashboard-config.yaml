@@ -2,6 +2,11 @@ kitchenSink: true
 productionEnvironment:
   - name: http listener
     url: http://localhost:9999
+    requestOptions:
+      auth:
+          user: cat
+          password: dog
+
 
 testEnvironments:
   - name: DEV http listener

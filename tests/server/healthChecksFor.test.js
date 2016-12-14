@@ -21,8 +21,14 @@ describe('healthChecksFor', () => {
   });
 
   context('service is healthy', () => {
-    it('returns OK', () => healthCheck()
-      .then(state => expect(state).toEqual({
+    let state;
+
+    beforeEach(() =>
+      healthCheck().then(result => (state = result))
+    );
+
+    it('returns OK', () => {
+      expect(state).toEqual({
         results: [
           {
             name: 'my service',
@@ -30,8 +36,35 @@ describe('healthChecksFor', () => {
             url: 'http://blah',
           }],
         description: 'Monitoring 1 service(s)',
-      })
-    ));
+      });
+    });
+
+    it('makes the request', () => {
+      expect(requestStub.firstCall.args).toEqual([{
+        resolveWithFullResponse: true,
+        uri: 'http://blah',
+      }]);
+    });
+  });
+
+  context('with request options', () => {
+    beforeEach(() =>
+      healthChecksFor([{
+        name: 'my service with request options',
+        url: 'http://whatever',
+        requestOptions: { auth: { user: 'cat', password: 'dog' } },
+      }])());
+
+    it('makes the request with the options', () => {
+      expect(requestStub.firstCall.args).toEqual([{
+        auth: {
+          password: 'dog',
+          user: 'cat',
+        },
+        resolveWithFullResponse: true,
+        uri: 'http://whatever',
+      }]);
+    });
   });
 
   context('service fails with a bad response', () => {

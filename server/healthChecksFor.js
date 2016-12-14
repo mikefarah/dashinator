@@ -1,10 +1,10 @@
 import request from 'request-promise-native';
 import winston from 'winston';
 
-const checkServiceHealth = service => request({
+const checkServiceHealth = service => request(Object.assign({
   uri: service.url,
   resolveWithFullResponse: true,
-})
+}, service.requestOptions))
   .then(() => 'OK')
   .catch((err) => {
     winston.warn(`Error checking ${service.url}`, err);
