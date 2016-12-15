@@ -1,10 +1,25 @@
 import request from 'request-promise-native';
 import winston from 'winston';
+import _ from 'lodash';
+import fs from 'fs';
 
-const checkServiceHealth = service => request(Object.assign({
-  uri: service.url,
-  resolveWithFullResponse: true,
-}, service.requestOptions))
+const requestFor = (service) => {
+  const requestOptions = Object.assign({
+    uri: service.url,
+    resolveWithFullResponse: true,
+  }, service.requestOptions);
+
+  ['ca', 'key', 'cert'].forEach((field) => {
+    const filePath = _.get(requestOptions, `agentOptions.${field}File`);
+    if (filePath) {
+      requestOptions.agentOptions[field] = fs.readFileSync(filePath);
+    }
+  });
+  winston.info(`Checking service health of ${service.name}`);
+  return request(requestOptions);
+};
+
+const checkServiceHealth = service => requestFor(service)
   .then(() => 'OK')
   .catch((err) => {
     winston.warn(`Error checking ${service.url}`, err);
@@ -13,7 +28,7 @@ const checkServiceHealth = service => request(Object.assign({
     }
     return err.message.replace(/^Error: /, '');
   })
-  .then(status => Object.assign({}, service, {
+  .then(status => Object.assign({}, _.pick(service, ['name', 'url']), {
     status,
   }));
 
