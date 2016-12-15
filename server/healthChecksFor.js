@@ -5,6 +5,7 @@ import fs from 'fs';
 
 const requestFor = (service) => {
   const requestOptions = Object.assign({
+    timeout: 2000,
     uri: service.url,
     resolveWithFullResponse: true,
   }, service.requestOptions);

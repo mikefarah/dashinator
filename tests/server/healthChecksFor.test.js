@@ -43,6 +43,7 @@ describe('healthChecksFor', () => {
       expect(requestStub.firstCall.args).toEqual([{
         resolveWithFullResponse: true,
         uri: 'http://blah',
+        timeout: 2000,
       }]);
     });
   });
@@ -52,7 +53,7 @@ describe('healthChecksFor', () => {
       healthChecksFor([{
         name: 'my service with request options',
         url: 'http://whatever',
-        requestOptions: { auth: { user: 'cat', password: 'dog' } },
+        requestOptions: { timeout: 3000, auth: { user: 'cat', password: 'dog' } },
       }])());
 
     it('makes the request with the options', () => {
@@ -61,6 +62,7 @@ describe('healthChecksFor', () => {
           password: 'dog',
           user: 'cat',
         },
+        timeout: 3000,
         resolveWithFullResponse: true,
         uri: 'http://whatever',
       }]);
