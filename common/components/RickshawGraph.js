@@ -3,11 +3,43 @@ import Rickshaw from 'rickshaw';
 import _ from 'lodash';
 import Counter from './Counter';
 
+const colorScheme = [
+  '#00cc00',
+  '#ff8000',
+  '#ffcc00',
+  '#330099',
+  '#990099',
+  '#ccff00',
+  '#ff0000',
+  '#808080',
+  '#008f00',
+  '#00487d',
+  '#b35a00',
+  '#b38f00',
+  '#6b006b',
+  '#8fb300',
+  '#b30000',
+  '#bebebe',
+  '#80ff80',
+  '#80c9ff',
+  '#ffc080',
+  '#ffe680',
+  '#aa80ff',
+  '#ee00cc',
+  '#ff8080',
+  '#666600',
+  '#ffbfff',
+  '#00ffcc',
+  '#cc6699',
+  '#999900',
+];
+
 class RickshawGraph extends React.Component {
   componentDidMount() {
     this.graph = new Rickshaw.Graph({
       element: this.chartContainer,
       series: this.getSeriesWithColors(),
+      renderer: 'line',
     });
 
     // eslint-disable-next-line no-new
@@ -17,15 +49,16 @@ class RickshawGraph extends React.Component {
 
     const xAxis = new Rickshaw.Graph.Axis.X({
       graph: this.graph,
-      tickFormat: x => new Date(x * 1000).toLocaleTimeString(),
-      ticksTreatment: 'glow',
+      tickFormat: (x) => {
+        const date = new Date(x * 1000);
+        return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      },
     });
     xAxis.render();
 
     const yAxis = new Rickshaw.Graph.Axis.Y({
       graph: this.graph,
       tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-      ticksTreatment: 'glow',
     });
 
     yAxis.render();
@@ -34,7 +67,7 @@ class RickshawGraph extends React.Component {
   }
 
   getSeriesWithColors() {
-    const palette = new Rickshaw.Color.Palette({ scheme: 'cool' });
+    const palette = new Rickshaw.Color.Palette({ scheme: colorScheme });
     return this.props.series.map(s =>
       Object.assign({ color: palette.color() }, s)
     );
@@ -56,7 +89,7 @@ class RickshawGraph extends React.Component {
                 .flatten()
                 .map(d => d.y)
                 .max()
-                .value();
+                .value() || 0;
     }
     return 0;
   }

@@ -14,7 +14,7 @@ describe('Dashboard', () => {
         production={ { failures: [] } }
         ci={ { failures: [] } }
         connection='disconnected'
-        heapGraph={{ data: [{ x: 1, y: 2 }] }}
+        graphs= {{ heapGraph: { series: [] } }}
         kitchenSink={true}
       />
       );
@@ -41,7 +41,7 @@ describe('Dashboard', () => {
         production={ { failures: [] } }
         ci={ { failures: [] } }
         connection='disconnected'
-        heapGraph={{ data: [{ x: 1, y: 2 }] }}
+        graphs= {{ heapGraph: { series: [] } }}
       />
       );
     });

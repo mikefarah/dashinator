@@ -10,6 +10,13 @@
     margin: auto;
   }
 
+  .x_ticks_d3,
+  .y_ticks {
+    font-family: sans-serif;
+
+    fill: white;
+  }
+
   .rickshaw_legend {
     position: absolute;
     right: 0;
@@ -17,6 +24,10 @@
     left: 0;
     padding-bottom: 5px;
     background: none;
+
+    li {
+      display: inline;
+    }
   }
 
   .name {
@@ -24,7 +35,6 @@
     font-size: 30px;
     position: relative;
     z-index: 1;
-    margin-top: 10px;
     color: white;
   }
 
@@ -39,5 +49,14 @@
   .counter {
     z-index: 1;
     background: none;
+
+    .name {
+      margin: 0;
+    }
+
+    .value {
+      font-size: 90px;
+      margin-top: -15px;
+    }
   }
 }
