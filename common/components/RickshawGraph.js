@@ -8,6 +8,7 @@ class RickshawGraph extends React.Component {
     this.graph = new Rickshaw.Graph({
       element: this.chartContainer,
       series: this.getSeriesWithColors(),
+      renderer: 'line',
     });
 
     // eslint-disable-next-line no-new
@@ -56,7 +57,7 @@ class RickshawGraph extends React.Component {
                 .flatten()
                 .map(d => d.y)
                 .max()
-                .value();
+                .value() || 0;
     }
     return 0;
   }

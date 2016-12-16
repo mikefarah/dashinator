@@ -57,7 +57,9 @@ function start(configuration) {
     production: production.getState(),
     ci: bamboo.getState(),
     kitchenSink: dashboardConfig.kitchenSink,
-    heapGraph: heapGraph.getState(),
+    graphs: {
+      heapGraph: heapGraph.getState(),
+    },
   });
 
   app.use(handleRender(preloadedState));
