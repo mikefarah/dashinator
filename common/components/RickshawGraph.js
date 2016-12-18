@@ -1,6 +1,7 @@
 import React from 'react';
 import Rickshaw from 'rickshaw';
 import _ from 'lodash';
+import dateformat from 'dateformat';
 import Counter from './Counter';
 
 const colorScheme = [
@@ -51,7 +52,7 @@ class RickshawGraph extends React.Component {
       graph: this.graph,
       tickFormat: (x) => {
         const date = new Date(x * 1000);
-        return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+        return dateformat(date, 'HH:MM:ss');
       },
     });
     xAxis.render();
