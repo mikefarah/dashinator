@@ -24,18 +24,24 @@
     .ct-slice-donut {
       stroke-width: 9% !important;
     }
+
+    @media only screen and (max-device-width: 1300px) {
+      .ct-slice-donut {
+        stroke-width: 7% !important;
+      }
+    }
   }
 
-  .title {
+  .name {
     padding-top: 60px;
   }
 
-  .title,
-  .unit {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
+  .unit,
+  .name {
+    .title();
+
+    position: relative;
     z-index: 1;
-    color: white;
   }
 
   .value {

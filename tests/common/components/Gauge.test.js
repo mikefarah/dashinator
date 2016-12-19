@@ -11,7 +11,7 @@ describe('Gauge', () => {
   });
 
   it('renders the name', () => {
-    expect(gauge.find('.title').text()).toEqual('test');
+    expect(gauge.find('.name').text()).toEqual('test');
   });
 
   it('renders the description', () => {
