@@ -24,7 +24,7 @@ FailureList.propTypes = {
     elapsed: React.PropTypes.number,
     failures: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
+      url: PropTypes.string,
     })).isRequired,
   }).isRequired,
 };
