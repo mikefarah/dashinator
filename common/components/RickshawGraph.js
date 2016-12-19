@@ -95,8 +95,6 @@ class RickshawGraph extends React.Component {
   }
 
   className() {
-    console.log(`this.props.errorThreshold: ${this.props.errorThreshold}`);
-    console.log(`this.maxValue(): ${this.maxValue()}`);
     if (this.props.errorThreshold && this.maxValue() > this.props.errorThreshold) {
       return 'rickshaw-graph failure';
     }
