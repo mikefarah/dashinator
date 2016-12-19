@@ -86,8 +86,7 @@ class RickshawGraph extends React.Component {
   maxValue() {
     if (this.props.series) {
       return _.chain(this.props.series)
-                .map(s => s.data)
-                .flatten()
+                .map(s => _.last(s.data))
                 .map(d => d.y)
                 .max()
                 .value() || 0;
