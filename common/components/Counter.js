@@ -70,7 +70,7 @@ class Counter extends React.Component {
   render() {
     return <div className='counter'>
       <div className="content">
-      <div className='name'>{this.props.name}</div>
+      <div className='title'>{this.props.name}</div>
       <div className='value'>
         {numeral(this.state.currentValue).format(this.props.formatString)}
       </div>

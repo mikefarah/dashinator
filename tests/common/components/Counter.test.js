@@ -13,7 +13,7 @@ describe('Counter', () => {
   });
 
   it('renders the name', () => {
-    expect(counter.find('.name').text()).toEqual('test');
+    expect(counter.find('.title').text()).toEqual('test');
   });
 
   it('renders the unit', () => {

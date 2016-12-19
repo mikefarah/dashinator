@@ -98,7 +98,7 @@ class RickshawGraph extends React.Component {
     return (
       <div className='rickshaw-graph'>
         <div className='content'>
-          <div className='name'>{this.props.name}</div>
+          <div className='title'>{this.props.name}</div>
           <Counter value={this.maxValue()} formatString={this.props.formatString}/>
           <div className='chart'
               ref={(container) => { this.chartContainer = container; }}

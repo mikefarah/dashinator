@@ -23,7 +23,7 @@ const Gauge = ({ name, value, description, unit, max = 100 }) => {
 
   return (<div className='gauge'>
         <div className='content'>
-          <div className='name'>{name}</div>
+          <div className='title'>{name}</div>
           <ChartistGraph data={data} options={options} type='Pie' />
           <div className='value'>{value}</div>
           <div className='unit'>{unit}</div>
