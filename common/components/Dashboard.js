@@ -14,7 +14,8 @@ const Dashboard = ({ connection, testEnvs, production, ci, kitchenSink, graphs }
             <RickshawGraph
             name='Heap'
             series={graphs.heapGraph.series}
-            formatString='0.0 b'/>
+            formatString='0.0 b'
+            errorThreshold={162295552}/>
         }
       </div>
       <div className='rowContainer'>

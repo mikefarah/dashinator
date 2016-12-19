@@ -94,9 +94,18 @@ class RickshawGraph extends React.Component {
     return 0;
   }
 
+  className() {
+    console.log(`this.props.errorThreshold: ${this.props.errorThreshold}`);
+    console.log(`this.maxValue(): ${this.maxValue()}`);
+    if (this.props.errorThreshold && this.maxValue() > this.props.errorThreshold) {
+      return 'rickshaw-graph failure';
+    }
+    return 'rickshaw-graph';
+  }
+
   render() {
     return (
-      <div className='rickshaw-graph'>
+      <div className={this.className()}>
         <div className='content'>
           <div className='title'>{this.props.name}</div>
           <Counter value={this.maxValue()} formatString={this.props.formatString}/>
@@ -116,5 +125,6 @@ RickshawGraph.propTypes = {
   name: React.PropTypes.string,
   series: React.PropTypes.array,
   formatString: React.PropTypes.string,
+  errorThreshold: React.PropTypes.number,
 };
 module.exports = RickshawGraph;
