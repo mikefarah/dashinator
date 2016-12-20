@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  devtool: 'inline-source-map',
+  devtool: 'cheap-source-map',
   entry: [
     'webpack-hot-middleware/client',
     './client/index.js',
@@ -15,6 +15,12 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+      },
+    }),
+    new webpack.optimize.UglifyJsPlugin({ mangle: false }),
   ],
   module: {
     loaders: [{
