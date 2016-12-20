@@ -26,6 +26,13 @@ app.use(Express.static('public'));
 
 const port = 3000;
 
+app.get('*.js', (req, res, next) => {
+  // eslint-disable-next-line no-param-reassign
+  req.url = `${req.url}.gz`;
+  res.set('Content-Encoding', 'gzip');
+  next();
+});
+
 // Use this middleware to set up hot module reloading via webpack.
 const compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler, {

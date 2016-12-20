@@ -23,6 +23,7 @@
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "babel-register": "^6.4.3",
+    "compression-webpack-plugin": "^0.3.2",
     "dateformat": "^2.0.0",
     "ease-component": "^1.0.0",
     "express": "^4.13.3",
