@@ -7,7 +7,7 @@ const FailureList = ({ name, state }) => (
     <div className='content'>
       <span className='title'>{ name }</span>
       <div className='list'>
-        { state.failures.map(f => <Failure key={ `${f.name}-${f.url}` } name={ f.name } reason={f.status} url={ f.url } />) }
+        { state.failures.map(f => <Failure key={ `${f.name}-${f.url}-${f.status}` } name={ f.name } reason={f.status} url={ f.url } />) }
       </div>
     </div>
       <div className='footer'>
