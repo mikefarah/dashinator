@@ -11,3 +11,4 @@ reports
 pacts/
 public/*.css
 real-config.yml
+public/bundle.js*

@@ -22,24 +22,28 @@ const broadcaster = new Broadcaster();
 
 const app = new Express();
 app.use(lessMiddleware('public'));
-app.use(Express.static('public'));
 
 const port = 3000;
 
-app.get('*.js', (req, res, next) => {
-  // eslint-disable-next-line no-param-reassign
-  req.url = `${req.url}.gz`;
-  res.set('Content-Encoding', 'gzip');
-  next();
-});
+if (process.env.NODE_ENV !== 'production') {
+  winston.warn('Using webpack HOT-LOADING, this shouldnt happen in prod');
+ //  Use this middleware to set up hot module reloading via webpack.
+  const compiler = webpack(webpackConfig);
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: webpackConfig.output.publicPath,
+  }));
+  app.use(webpackHotMiddleware(compiler));
+} else {
+  app.get('*.js', (req, res, next) => {
+    // eslint-disable-next-line no-param-reassign
+    req.url = `${req.url}.gz`;
+    res.set('Content-Encoding', 'gzip');
+    next();
+  });
+}
 
-// Use this middleware to set up hot module reloading via webpack.
-const compiler = webpack(webpackConfig);
-app.use(webpackDevMiddleware(compiler, {
-  noInfo: true,
-  publicPath: webpackConfig.output.publicPath,
-}));
-app.use(webpackHotMiddleware(compiler));
+app.use(Express.static('public'));
 
 function start(configuration) {
   const dashboardConfig = Yaml.parse(configuration);

@@ -8,4 +8,8 @@ RUN npm install --loglevel warn
 
 COPY . /opt/dashinator
 
+RUN ./node_modules/.bin/webpack --config webpack.prod.config.js
+
+ENV NODE_ENV production
+
 ENTRYPOINT ["node", "server/index.js"]

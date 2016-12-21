@@ -20,7 +20,7 @@ function renderFullPage(html, preloadedState) {
         <script>
           window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\x3c')}
         </script>
-        <script src="/static/bundle.js"></script>
+        <script src="/bundle.js"></script>
       </body>
     </html>
     `;
