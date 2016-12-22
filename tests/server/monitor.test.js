@@ -1,30 +1,28 @@
-import sinon from 'sinon';
-import 'sinon-as-promised';
 import _ from 'lodash';
-
 import winstonStub from '../winstonStub';
+
 import Monitor from '../../server/monitor';
 
 jest.useFakeTimers();
+jest.mock('winston', () => winstonStub);
 
 describe('Monitor', () => {
   let runCheck;
   const broadcasterStub = {
-    broadcast: sinon.stub(),
+    broadcast: jest.fn(),
   };
 
   const actionType = 'updateSomething';
   let monitor;
 
   beforeEach(() => {
-    runCheck = sinon.stub().resolves();
-    Monitor.__Rewire__('winston', winstonStub);
+    runCheck = jest.fn(() => Promise.resolve());
     monitor = new Monitor(broadcasterStub, actionType, runCheck);
   });
 
   describe('monitor', () => {
     beforeEach(() => {
-      monitor.updateState = sinon.stub();
+      monitor.updateState = jest.fn();
     });
 
     context('runCheck succeeds', () => {
@@ -34,44 +32,44 @@ describe('Monitor', () => {
       };
 
       beforeEach(() => {
-        runCheck.reset().resolves(state);
+        runCheck.mockImplementation(() => Promise.resolve(state));
         return monitor.monitor();
       });
 
       it('calls runCheck', () => {
-        expect(runCheck.callCount).toEqual(1);
+        expect(runCheck.mock.calls.length).toEqual(1);
       });
 
       it('updates the state the new state', () => {
-        const actual = _.omit(monitor.updateState.firstCall.args[0], ['elapsed']);
+        const actual = _.omit(monitor.updateState.mock.calls[0][0], ['elapsed']);
         expect(actual).toEqual(_.omit(state, ['elapsed']));
       });
 
       it('calculates the elapsed time', () => {
-        expect(monitor.updateState.firstCall.args[0].elapsed).toBeGreaterThanOrEqual(0);
+        expect(monitor.updateState.mock.calls[0][0].elapsed).toBeGreaterThanOrEqual(0);
       });
 
       it('schedules to call itself', () => {
         jest.runOnlyPendingTimers();
-        expect(runCheck.callCount).toEqual(2);
+        expect(runCheck.mock.calls.length).toEqual(2);
       });
     });
 
     context('runCheck fails', () => {
       beforeEach(() => {
-        runCheck.reset().rejects(new Error('badness'));
+        runCheck.mockImplementation(() => Promise.reject(new Error('badness')));
         return monitor.monitor();
       });
 
       it('updates the state with an error', () => {
-        expect(monitor.updateState.firstCall.args[0]).toEqual({
+        expect(monitor.updateState).toBeCalledWith({
           results: [{ name: 'badness', status: 'Exception', url: '#' }],
         });
       });
 
       it('schedules to call itself', () => {
         jest.runOnlyPendingTimers();
-        expect(runCheck.callCount).toEqual(2);
+        expect(runCheck.mock.calls.length).toEqual(2);
       });
     });
   });
@@ -92,7 +90,7 @@ describe('Monitor', () => {
     };
 
     beforeEach(() => {
-      monitor.broadcast = sinon.stub();
+      monitor.broadcast = jest.fn();
       monitor.updateState(state);
     });
 
@@ -105,7 +103,7 @@ describe('Monitor', () => {
     });
 
     it('calls broadcast to broadcast the results', () => {
-      expect(monitor.broadcast.called).toEqual(true);
+      expect(monitor.broadcast.mock.calls.length).toBeGreaterThan(0);
     });
   });
 
@@ -118,10 +116,10 @@ describe('Monitor', () => {
     });
 
     it('broadcasts the update action', () => {
-      expect(broadcasterStub.broadcast.firstCall.args).toEqual([{
+      expect(broadcasterStub.broadcast).toBeCalledWith({
         type: actionType,
         failures,
-      }]);
+      });
     });
   });
 });

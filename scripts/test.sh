@@ -2,4 +2,4 @@
 
 set -e
 
-./node_modules/.bin/jest
+./node_modules/.bin/jest --coverage

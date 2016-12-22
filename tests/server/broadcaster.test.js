@@ -1,30 +1,29 @@
-import sinon from 'sinon';
+import socketIoStub from 'socket.io';
 import winstonStub from '../winstonStub';
 import Broadcaster from '../../server/broadcaster';
 
-describe('Broadcaster', () => {
-  const socket = {
-    emit: sinon.stub(),
-    on: sinon.stub(),
-  };
+jest.mock('winston', () => winstonStub);
 
+jest.mock('socket.io');
+
+describe('Broadcaster', () => {
+  let socket;
+  let broadcaster;
   let ioStub;
 
-  let broadcaster;
-
-  function stubSocketIo() {
-    ioStub = {
-      attach: sinon.stub(),
-      on: sinon.stub(),
-    };
-    const socketIo = sinon.stub().returns(ioStub);
-    Broadcaster.__Rewire__('socketIo', socketIo);
-  }
-
   beforeEach(() => {
-    stubSocketIo();
-    Broadcaster.__Rewire__('winston', winstonStub);
     broadcaster = new Broadcaster();
+    ioStub = {
+      attach: jest.fn(),
+      emit: jest.fn(),
+      on: jest.fn(),
+    };
+    socketIoStub.mockImplementation(() => ioStub);
+
+    socket = {
+      on: jest.fn(),
+      emit: jest.fn(),
+    };
   });
 
   describe('attach', () => {
@@ -33,30 +32,28 @@ describe('Broadcaster', () => {
     };
 
     beforeEach(() => {
-      broadcaster.addSocket = sinon.stub();
+      ioStub.on.mockImplementation((event, handleFunc) => handleFunc(socket));
+      broadcaster.addSocket = jest.fn();
       broadcaster.attach(server);
     });
+
     it('attaches socket io to the server', () => {
-      expect(ioStub.attach.firstCall.args).toEqual([server]);
+      expect(ioStub.attach).toBeCalledWith(server);
     });
 
     it('listens to connection events', () => {
-      expect(ioStub.on.firstCall.args[0]).toEqual('connection');
+      expect(ioStub.on.mock.calls[0][0]).toEqual('connection');
     });
 
-    context('a socket connection is made', () => {
-      beforeEach(() => {
-        ioStub.on.yield(socket);
-      });
-
-      it('delegates to addSocket', () => {
-        expect(broadcaster.addSocket.firstCall.args).toEqual([socket]);
-      });
+    it('delegates to addSocket when a connection occurs', () => {
+      expect(broadcaster.addSocket).toBeCalledWith(socket);
     });
   });
 
   describe('addSocket', () => {
+    let disconnectFunction;
     beforeEach(() => {
+      socket.on.mockImplementation((event, handleFunc) => (disconnectFunction = handleFunc));
       broadcaster.addSocket(socket);
     });
 
@@ -65,13 +62,11 @@ describe('Broadcaster', () => {
     });
 
     it('listens to socket disconnect events', () => {
-      expect(socket.on.firstCall.args[0]).toEqual('disconnect');
+      expect(socket.on.mock.calls[0][0]).toEqual('disconnect');
     });
 
-    context('a socket is disconnected from the server', () => {
-      beforeEach(() => {
-        socket.on.yield();
-      });
+    context('socket disconnects', () => {
+      beforeEach(() => disconnectFunction());
 
       it('removes the socket from connections', () => {
         expect(broadcaster.connections).toEqual([]);
@@ -90,7 +85,7 @@ describe('Broadcaster', () => {
     });
 
     it('emits the action to the connected sockets', () => {
-      expect(socket.emit.firstCall.args).toEqual(['action', action]);
+      expect(socket.emit).toBeCalledWith('action', action);
     });
   });
 });

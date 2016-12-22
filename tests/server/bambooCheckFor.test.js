@@ -1,11 +1,11 @@
-import sinon from 'sinon';
-import 'sinon-as-promised';
+import requestStub from 'request-promise-native';
 import winstonStub from '../winstonStub';
-
 import bambooCheckFor from '../../server/bambooCheckFor';
 
+jest.mock('winston', () => winstonStub);
+jest.mock('request-promise-native', () => jest.fn(() => Promise.resolve()));
+
 describe('bambooCheckFor', () => {
-  let requestStub;
   let bambooCheck;
 
   const bambooConfig = {
@@ -32,15 +32,12 @@ describe('bambooCheckFor', () => {
   });
 
   beforeEach(() => {
-    requestStub = sinon.stub().resolves();
-    bambooCheckFor.__Rewire__('request', requestStub);
-    bambooCheckFor.__Rewire__('winston', winstonStub);
     bambooCheck = bambooCheckFor(bambooConfig);
   });
 
   context('build successful', () => {
     beforeEach(() => {
-      requestStub.reset().resolves(bambooResultFor('Successful'));
+      requestStub.mockImplementation(() => Promise.resolve(bambooResultFor('Successful')));
     });
 
     it('returns an OK status', () =>
@@ -57,20 +54,20 @@ describe('bambooCheckFor', () => {
 
     it('makes a request with the config provided', () =>
       bambooCheck().then(() =>
-          expect(requestStub.firstCall.args).toEqual([{
+          expect(requestStub).toBeCalledWith({
             json: true,
             url: 'http://base/rest/api/latest/result/blah?os_authType=basic&max-result=1',
             auth: {
               user: 'fred',
               password: '1234',
             },
-          }])
+          })
       ));
   });
 
   context('build failed', () => {
     beforeEach(() => {
-      requestStub.reset().resolves(bambooResultFor('FAILED'));
+      requestStub.mockImplementation(() => Promise.resolve(bambooResultFor('FAILED')));
     });
 
     it('returns the failure status', () =>
@@ -87,7 +84,7 @@ describe('bambooCheckFor', () => {
 
   context('exception accessing bamboo', () => {
     beforeEach(() => {
-      requestStub.reset().rejects(new Error('Access Denied'));
+      requestStub.mockImplementation(() => Promise.reject(new Error('Access Denied')));
     });
 
     it('returns the exceptiom details', () =>

@@ -1,22 +1,19 @@
-import sinon from 'sinon';
-import 'sinon-as-promised';
+import requestStub from 'request-promise-native';
 import winstonStub from '../winstonStub';
-
 import healthChecksFor from '../../server/healthChecksFor';
+
+jest.mock('winston', () => winstonStub);
+jest.mock('request-promise-native', () => jest.fn(() => Promise.resolve()));
 
 describe('healthChecksFor', () => {
   const services = [{
     name: 'my service',
     url: 'http://blah',
   }];
-  let requestStub;
 
   let healthCheck;
 
   beforeEach(() => {
-    requestStub = sinon.stub().resolves();
-    healthChecksFor.__Rewire__('request', requestStub);
-    healthChecksFor.__Rewire__('winston', winstonStub);
     healthCheck = healthChecksFor(services);
   });
 
@@ -40,11 +37,11 @@ describe('healthChecksFor', () => {
     });
 
     it('makes the request', () => {
-      expect(requestStub.firstCall.args).toEqual([{
+      expect(requestStub).toBeCalledWith({
         resolveWithFullResponse: true,
         uri: 'http://blah',
         timeout: 2000,
-      }]);
+      });
     });
   });
 
@@ -57,7 +54,7 @@ describe('healthChecksFor', () => {
       }])());
 
     it('makes the request with the options', () => {
-      expect(requestStub.firstCall.args).toEqual([{
+      expect(requestStub).toBeCalledWith({
         auth: {
           password: 'dog',
           user: 'cat',
@@ -65,7 +62,7 @@ describe('healthChecksFor', () => {
         timeout: 3000,
         resolveWithFullResponse: true,
         uri: 'http://whatever',
-      }]);
+      });
     });
   });
 
@@ -78,7 +75,7 @@ describe('healthChecksFor', () => {
         statusCode: 503,
         body: 'Forbidden!',
       };
-      requestStub.reset().rejects(error);
+      requestStub.mockImplementation(() => Promise.reject(error));
     });
 
     it('returns the error message', () => healthCheck()
@@ -96,7 +93,7 @@ describe('healthChecksFor', () => {
 
   context('service fails', () => {
     beforeEach(() => {
-      requestStub.reset().rejects(new Error('no'));
+      requestStub.mockImplementation(() => Promise.reject(new Error('no')));
     });
 
     it('returns the error message', () => healthCheck()

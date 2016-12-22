@@ -23,7 +23,6 @@ module.exports = {
       include: __dirname,
       query: {
         presets: ['react-hmre'],
-        plugins: ['rewire'],
       },
     }],
   },
