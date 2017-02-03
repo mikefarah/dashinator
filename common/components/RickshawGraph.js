@@ -43,8 +43,7 @@ class RickshawGraph extends React.Component {
       renderer: 'line',
     });
 
-    // eslint-disable-next-line no-new
-    new Rickshaw.Graph.Legend({
+    this.graphLegend = new Rickshaw.Graph.Legend({
       graph: this.graph, element: this.legend,
     });
 
@@ -52,7 +51,7 @@ class RickshawGraph extends React.Component {
       graph: this.graph,
       tickFormat: (x) => {
         const date = new Date(x * 1000);
-        return dateformat(date, 'HH:MM:ss');
+        return dateformat(date, this.props.xAxisFormat);
       },
     });
     xAxis.render();
@@ -60,6 +59,18 @@ class RickshawGraph extends React.Component {
     const yAxis = new Rickshaw.Graph.Axis.Y({
       graph: this.graph,
       tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+    });
+
+    // eslint-disable-next-line no-new
+    new Rickshaw.Graph.HoverDetail({
+      graph: this.graph,
+      formatter(series, x, y) {
+        const rawDate = new Date(x * 1000);
+        const date = `<span class="date">${dateformat(rawDate, 'dS mmmm yyyy, h:MM:ss TT')}</span>`;
+        const swatch = `<span class="rickshaw_detail_swatch" style="background-color: ${series.color}"></span>`;
+        const content = `${swatch}${series.name}: ${y.toFixed(2)} <br> ${date}`;
+        return content;
+      },
     });
 
     yAxis.render();
@@ -76,10 +87,10 @@ class RickshawGraph extends React.Component {
 
   componentWillUpdate() {
     if (this.graph) {
-      this.props.series.forEach((s, index) => {
-        this.graph.series[index].data = s.data;
-      });
+      this.graph.series = this.getSeriesWithColors();
+      this.graph.series.active = () => this.graph.series.filter(s => !s.disabled);
       this.graph.update();
+      this.graphLegend.render();
     }
   }
 
@@ -125,5 +136,6 @@ RickshawGraph.propTypes = {
   series: React.PropTypes.array,
   formatString: React.PropTypes.string,
   errorThreshold: React.PropTypes.number,
+  xAxisFormat: React.PropTypes.string,
 };
 module.exports = RickshawGraph;

@@ -15,7 +15,8 @@ const Dashboard = ({ connection, testEnvs, production, ci, kitchenSink, graphs }
             name='Heap'
             series={graphs.heapGraph.series}
             formatString='0.0 b'
-            errorThreshold={162295552}/>
+            errorThreshold={162295552}
+            xAxisFormat='HH:MM:ss'/>
         }
       </div>
       <div className='rowContainer'>
