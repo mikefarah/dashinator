@@ -71,6 +71,7 @@ function start(configuration) {
     graphs: {
       heapGraph: heapGraph.getState(),
     },
+    title: dashboardConfig.title,
   });
 
   app.use(handleRender(preloadedState));
