@@ -6,7 +6,7 @@ Use it as an information radar for teams. I use it to monitor about 30 micro-ser
 
 Did I mention that it's responsive? Works on tablets and mobiles so you can check it (or show it off) on the go :)
 
-Currently it supports Bamboo, happy for pull requests to accept other CI tools too.
+Currently it supports [Bamboo](https://www.atlassian.com/software/bamboo), happy for pull requests to accept other CI tools too.
 
 ![Screenshot](screenshots.gif)
 
