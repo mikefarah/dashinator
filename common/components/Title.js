@@ -4,9 +4,9 @@ const Title = ({ titleText }) => {
   const showTitle = titleText && titleText.trim().length > 0;
   if (showTitle) {
     return (
-      <div className='titleContainer'>
+      <header className='titleContainer'>
         <h1>{ titleText }</h1>
-      </div>
+      </header>
     );
   }
   return null;
