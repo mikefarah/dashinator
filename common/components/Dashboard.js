@@ -3,10 +3,12 @@ import FailureList from './FailureList';
 import Gauge from './Gauge';
 import Counter from './Counter';
 import RickshawGraph from './RickshawGraph';
+import Title from './Title';
 
-const Dashboard = ({ connection, testEnvs, production, ci, kitchenSink, graphs }) => (
+const Dashboard = ({ connection, testEnvs, production, ci, kitchenSink, graphs, title }) => (
   <div className='dashboard'>
     <div className={ `connectionAlert ${connection}` }>Connection Lost</div>
+    <Title titleText={ title } />
     <div className='columnContainer'>
       <div className='rowContainer'>
         <FailureList name='Production' state={ production } />
@@ -32,6 +34,7 @@ const Dashboard = ({ connection, testEnvs, production, ci, kitchenSink, graphs }
           <Counter name='Open tickets' value={testEnvs.elapsed}/>
         }
       </div>
+
     </div>
   </div>
 );
@@ -43,6 +46,7 @@ Dashboard.propTypes = {
   ci: React.PropTypes.object.isRequired,
   kitchenSink: React.PropTypes.bool,
   graphs: React.PropTypes.object.isRequired,
+  title: PropTypes.string,
 };
 
 export default Dashboard;
