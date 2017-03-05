@@ -6,6 +6,7 @@ const Failure = ({ name, url, reason }) => (
     <a href={ url || '#'}>
       <div className='name'>{ name }</div>
       <div className='reason'>{truncate(reason, 60)}</div>
+      <p className='tooltip'>{reason}</p>
     </a>
   </div>
 );

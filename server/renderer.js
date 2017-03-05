@@ -12,7 +12,6 @@ function renderFullPage(html, preloadedState) {
         <title>Dashboard Dashinator Style</title>
         <link rel="stylesheet" href="/application.css">
         <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
-        <link rel="stylesheet" href="//code.shutterstock.com/rickshaw/rickshaw.min.css">
         <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
       </head>
       <body style='margin: 0px'>

@@ -1,3 +1,7 @@
+@import 'rickshaw';
+
+@legendHeight: 34px;
+
 .rickshaw-graph {
   position: relative;
   display: flex;
@@ -22,20 +26,43 @@
     fill: white;
   }
 
+  .path {
+    stroke-width: 5px;
+    stroke-linecap: round;
+  }
+
   .rickshaw_legend {
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
-    padding-bottom: 5px;
+    height: @legendHeight;
+    padding: 0;
+    padding-bottom: 2px;
     background: none;
 
-    li {
-      display: inline;
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+
+      flex-wrap: wrap;
+
+      li {
+        display: inline-block;
+      }
     }
 
     .label {
-      .littleText();
+      font-size: 1.5vh;
+      font-weight: 100;
+    }
+
+    .swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 4px;
     }
   }
 
@@ -46,10 +73,39 @@
 
   .chart {
     position: absolute;
-    top: 5%;
-    right: 5%;
-    bottom: 37px;
-    left: 5%;
+    top: 4px;
+    right: 0;
+    bottom: @legendHeight + 2;
+    left: 0;
+    overflow: hidden;
+  }
+
+  @media only screen and (max-device-width: 699px) {
+    @legendHeight: 64px;
+
+    .chart {
+      bottom: @legendHeight + 2;
+    }
+
+    .rickshaw_legend {
+      height: @legendHeight;
+    }
+  }
+
+  @media only screen and (min-device-width: 700px) and (max-device-width: 1024px) {
+    @legendHeight: 40px;
+
+    .chart {
+      bottom: @legendHeight + 2;
+    }
+
+    .rickshaw_legend {
+      height: @legendHeight;
+
+      .label {
+        font-size: 1.2vh;
+      }
+    }
   }
 
   .counter {

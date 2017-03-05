@@ -5,27 +5,21 @@ import dateformat from 'dateformat';
 import Counter from './Counter';
 
 const colorScheme = [
-  '#00cc00',
+  '#17941f',
   '#ff8000',
   '#ffcc00',
-  '#330099',
-  '#990099',
-  '#ccff00',
+  '#b35a00',
+  '#6b006b',
+  '#80c9ff',
+  '#aa80ff',
   '#ff0000',
   '#808080',
-  '#008f00',
-  '#00487d',
-  '#b35a00',
   '#b38f00',
-  '#6b006b',
   '#8fb300',
   '#b30000',
   '#bebebe',
   '#80ff80',
-  '#80c9ff',
   '#ffc080',
-  '#ffe680',
-  '#aa80ff',
   '#ee00cc',
   '#ff8080',
   '#666600',
@@ -40,7 +34,7 @@ class RickshawGraph extends React.Component {
     this.graph = new Rickshaw.Graph({
       element: this.chartContainer,
       series: this.getSeriesWithColors(),
-      renderer: 'line',
+      renderer: this.props.renderer || 'line',
     });
 
     this.graphLegend = new Rickshaw.Graph.Legend({
@@ -114,11 +108,16 @@ class RickshawGraph extends React.Component {
   }
 
   render() {
+    let counter = <div/>;
+    if (!this.props.hideCounter) {
+      counter = <Counter value={this.maxValue()} formatString={this.props.formatString}/>;
+    }
+
     return (
       <div className={this.className()}>
         <div className='content'>
           <div className='title'>{this.props.name}</div>
-          <Counter value={this.maxValue()} formatString={this.props.formatString}/>
+          {counter}
           <div className='chart'
               ref={(container) => { this.chartContainer = container; }}
            />
@@ -134,7 +133,9 @@ class RickshawGraph extends React.Component {
 RickshawGraph.propTypes = {
   name: React.PropTypes.string,
   series: React.PropTypes.array,
+  hideCounter: React.PropTypes.string,
   formatString: React.PropTypes.string,
+  renderer: React.PropTypes.string,
   errorThreshold: React.PropTypes.number,
   xAxisFormat: React.PropTypes.string,
 };

@@ -1,9 +1,10 @@
 .failure {
+  position: relative;
   padding-bottom: 5px;
 
   a {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 2.2vh;
+    font-size: 2.4vh;
     padding-bottom: 15px;
     text-decoration: none;
     color: @failure-1;
@@ -11,5 +12,27 @@
 
   .reason {
     .littleText();
+  }
+
+  &:hover .tooltip {
+    display: block;
+    visibility: visible;
+  }
+
+  .tooltip {
+    .littleText();
+
+    position: absolute;
+    z-index: 1;
+    display: none;
+    visibility: hidden;
+    max-width: 25vh;
+    margin-left: 10px;
+    padding: 10px;
+    white-space: pre-wrap;
+    color: white;
+    border: 3px white solid;
+    border-radius: 5px;
+    background: @failure-0;
   }
 }
