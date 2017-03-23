@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { AbsoluteFragment as Fragment } from 'redux-little-router';
 import FailureList from './FailureList';
 import Gauge from './Gauge';
 import Counter from './Counter';
@@ -9,7 +10,9 @@ const Dashboard = ({ connection, testEnvs, production, ci, kitchenSink, graphs, 
   <div className='dashboard'>
     <div className={ `connectionAlert ${connection}` }>Connection Lost</div>
     <Title titleText={ title } />
-    <div className='columnContainer'>
+    <div className='pages'>
+    <Fragment forRoute='/'>
+      <div className='columnContainer'>
       <div className='rowContainer'>
         <FailureList name='Production' state={ production } />
         { kitchenSink &&
@@ -35,6 +38,15 @@ const Dashboard = ({ connection, testEnvs, production, ci, kitchenSink, graphs, 
         }
       </div>
 
+      </div>
+    </Fragment>
+    <Fragment forRoute='/extra'>
+      <div className='columnContainer'>
+        <div className='rowContainer'>
+          <FailureList name='Some more widgets' state={ ci } />
+        </div>
+      </div>
+    </Fragment>
     </div>
   </div>
 );

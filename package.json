@@ -41,6 +41,7 @@
     "react-dom": "^15.4.1",
     "react-redux": "^4.2.1",
     "redux": "^3.2.1",
+    "redux-little-router": "^12.1.2",
     "redux-thunk": "^1.0.3",
     "request": "^2.75.0",
     "request-promise-native": "^1.0.3",

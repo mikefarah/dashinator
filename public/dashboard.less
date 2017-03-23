@@ -10,10 +10,16 @@
     display: none;
   }
 
+  .pages > div,
+  .pages {
+    height: 100%;
+  }
+
   .connectionAlert.disconnected {
     font-family: 'Arial Black', Gadget, sans-serif;
     font-size: 30px;
     position: absolute;
+    z-index: 2;
     display: block;
     width: ~"calc(100% - " @padding ~")";
     margin: 20px 5px 0 5px;
@@ -21,7 +27,6 @@
     text-align: center;
     color: white;
     background: black;
-    z-index: 2;
   }
 
   .columnContainer {
