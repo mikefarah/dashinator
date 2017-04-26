@@ -30,12 +30,22 @@ const colorScheme = [
 ];
 
 class RickshawGraph extends React.Component {
+
   componentDidMount() {
     this.graph = new Rickshaw.Graph({
       element: this.chartContainer,
       series: this.getSeriesWithColors(),
       renderer: this.props.renderer || 'line',
     });
+
+    const resize = () => {
+      if (this.graph) {
+        this.graph.setSize();
+        this.graph.render();
+      }
+    };
+
+    window.addEventListener('resize', _.debounce(resize, 300));
 
     this.graphLegend = new Rickshaw.Graph.Legend({
       graph: this.graph, element: this.legend,
